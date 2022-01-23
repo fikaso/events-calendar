@@ -7,17 +7,9 @@ function Login() {
   const dispatch = useDispatch();
 
   const signIn = () => {
-    signInWithPopup(auth, provider)
-      .then(({ user }) => {
-        dispatch(
-          logIn({
-            displayName: user.displayName,
-            email: user.email,
-            photo: user.photoURL,
-          })
-        );
-      })
-      .catch((error) => console.log('error: ', error));
+    signInWithPopup(auth, provider).catch((error) =>
+      console.log('error: ', error)
+    );
   };
   return (
     <div className="flex flex-col items-center h-screen justify-center space-y-10">

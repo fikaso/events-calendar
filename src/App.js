@@ -12,13 +12,14 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    auth.onAuthStateChanged((user) => {
-      if (user) {
+    auth.onAuthStateChanged((authUser) => {
+      if (authUser) {
         dispatch(
           logIn({
-            displayName: user.displayName,
-            email: user.email,
-            photo: user.photoURL,
+            displayName: authUser.displayName,
+            email: authUser.email,
+            photo: authUser.photoURL,
+            accessToken: authUser.accessToken,
           })
         );
       }
@@ -26,7 +27,7 @@ function App() {
   }, [dispatch]);
 
   return (
-    <div>
+    <div className="flex flex-col p-10">
       <NavBar />
       {user ? <EventsList /> : <Login />}
     </div>
