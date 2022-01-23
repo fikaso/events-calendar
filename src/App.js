@@ -11,7 +11,6 @@ import EventsList from './screens/eventsList/EventsList';
 import Login from './screens/login/Login';
 
 function App() {
-  const user = useSelector(selectUser);
   const dispatch = useDispatch();
   const [calendarToken, setCalendarToken] = useState(false);
 
@@ -80,8 +79,7 @@ function App() {
   return (
     <div className="flex flex-col p-10">
       <NavBar />
-
-      {user ? <EventsList /> : <Login />}
+      {localStorage.getItem('accessToken') ? <EventsList /> : <Login />}
     </div>
   );
 }
