@@ -8,9 +8,7 @@ function NavBar() {
   const user = useSelector(selectUser);
 
   const signOut = () => {
-    auth.signOut().then(() => {
-      dispatch(logOut());
-    });
+    dispatch(logOut());
   };
   return (
     <div className="flex items-center mb-10 justify-between">

@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import NavBar from './components/NavBar';
 import { auth } from './firebase';
 import { logIn, selectUser } from './redux/userSlice';
-import EventsList from './screens/eventsList/components/EventsList';
+import EventsList from './screens/eventsList/EventsList';
 import Login from './screens/login/Login';
 
 function App() {
