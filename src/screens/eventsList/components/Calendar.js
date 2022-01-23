@@ -3,87 +3,49 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import React, { useRef, useState } from 'react';
 import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { logIn, logOut, selectUser } from '../redux/userSlice';
 import { useDispatch } from 'react-redux';
-import { auth } from '../firebase';
+import { auth } from '../../../firebase';
+import { logOut } from '../../../redux/userSlice';
 
 function Calendar() {
-  const [events, setEvents] = useState(null);
-  const user = useSelector(selectUser);
+  const [events, setEvents] = useState([]);
   const dispatch = useDispatch();
 
   const ref = useRef();
 
   useEffect(() => {
-    const script = document.createElement('script');
-    script.async = true;
-    script.defer = true;
-    script.src = 'https://apis.google.com/js/api.js';
-
-    document.body.appendChild(script);
-
-    script.addEventListener('load', () => {
-      if (window.gapi) {
-        handleClientLoad();
-      }
-    });
-  }, []);
-
-  const handleClientLoad = () => {
-    window.gapi.load('client:auth2', initClient);
-  };
-
-  const initClient = () => {
-    window.gapi.auth2.authorize(
-      {
-        client_id: process.env.REACT_APP_CLIENT_ID,
-        scope: process.env.REACT_APP_SCOPES,
-      },
-      (res) => {
-        if (res.access_token) {
-          dispatch(
-            logIn({
-              displayName: user.displayName,
-              email: user.email,
-              photo: user.photo,
-              accessToken: res.access_token,
-            })
-          );
-        }
-
-        // window.gapi.client.load('calendar', 'v3', ()=>{});
-      }
-    );
-
-    if (!user.accessToken) {
+    if (!localStorage.getItem('accessToken')) {
       dispatch(logOut);
     } else {
-      fetch(
-        `https://www.googleapis.com/calendar/v3/calendars/${process.env.REACT_APP_CALENDAR_ID}/events?key=${process.env.REACT_APP_API_KEY}&orderBy=startTime&singleEvents=true`,
-        {
-          headers: {
-            Authorization: `${user.accessToken}`,
-          },
-        }
-      )
-        .then((res) => {
-          // Unauthorized status code 401
-          if (res.status !== 401) {
-            return res.json();
-          } else {
-            console.log('error 401 : ', res);
-            auth.signOut().then(() => {
-              dispatch(logOut());
-            });
-          }
-        })
-        .then((data) => {
-          if (data?.items) {
-            setEvents(formatEvents(data.items));
-          }
-        });
+      initClient();
     }
+  }, []);
+
+  const initClient = () => {
+    fetch(
+      `https://www.googleapis.com/calendar/v3/calendars/${process.env.REACT_APP_CALENDAR_ID}/events?key=${process.env.REACT_APP_API_KEY}&orderBy=startTime&singleEvents=true`,
+      {
+        headers: {
+          Authorization: `${localStorage.getItem('accessToken')}`,
+        },
+      }
+    )
+      .then((res) => {
+        // Unauthorized status code 401
+        if (res.status !== 401) {
+          return res.json();
+        } else {
+          console.log('error 401 : ', res);
+          auth.signOut().then(() => {
+            dispatch(logOut());
+          });
+        }
+      })
+      .then((data) => {
+        if (data?.items) {
+          setEvents(formatEvents(data.items));
+        }
+      });
   };
 
   const formatEvents = (list) => {
@@ -95,13 +57,13 @@ function Calendar() {
   };
 
   const addEvent = () => {
-    if (window.gapi.client || user.accessToken) {
+    if (localStorage.getItem('accessToken')) {
       fetch(
         `https://www.googleapis.com/calendar/v3/calendars/${process.env.REACT_APP_CALENDAR_ID}/events?key=${process.env.REACT_APP_API_KEY}`,
         {
           method: 'POST',
           headers: {
-            Authorization: `Bearer ${user.accessToken}`,
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
           },
           body: JSON.stringify({
             end: {
@@ -115,7 +77,9 @@ function Calendar() {
         }
       )
         .then((res) => res.json())
-        .then((data) => console.log('added event data: ', data))
+        .then((data) => {
+          setEvents([...events, ...formatEvents([data])]);
+        })
         .catch((err) => console.log('error: ', err));
     }
   };
@@ -125,7 +89,7 @@ function Calendar() {
       <FullCalendar
         ref={ref}
         plugins={[dayGridPlugin, interactionPlugin]}
-        initialView="dayGridWeek"
+        initialView="dayGridMonth"
         events={events}
         displayEventTime={true}
         eventTimeFormat={{
@@ -136,7 +100,7 @@ function Calendar() {
         }}
         displayEventEnd={true}
         eventBackgroundColor="#5ebf8e"
-        eventColor="#5ebf8e"
+        eventColor="#4ce297"
         eventDisplay="block"
         headerToolbar={{
           start: 'addEventButton', // will normally be on the left. if RTL, will be on the right

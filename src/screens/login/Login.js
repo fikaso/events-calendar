@@ -1,11 +1,9 @@
-import { auth, provider } from '../firebase';
-import { signInWithPopup } from 'firebase/auth';
-import { useDispatch } from 'react-redux';
-import { logIn } from '../redux/userSlice';
+import { signInWithPopup, signInWithCustomToken } from 'firebase/auth';
+import { useEffect } from 'react';
+import { useState } from 'react';
+import { auth, provider } from '../../firebase';
 
 function Login() {
-  const dispatch = useDispatch();
-
   const signIn = () => {
     signInWithPopup(auth, provider).catch((error) =>
       console.log('error: ', error)
