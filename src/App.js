@@ -1,15 +1,19 @@
+import { useState } from 'react';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import NavBar from './components/NavBar';
 import { auth } from './firebase';
-import { logIn, selectUser } from './redux/userSlice';
+import { getEvents } from './helper/CalendarHandler';
+import { setEvents } from './redux/eventsSlice';
+import { logIn, logOut, selectUser } from './redux/userSlice';
 import EventsList from './screens/eventsList/EventsList';
 import Login from './screens/login/Login';
 
 function App() {
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
+  const [calendarToken, setCalendarToken] = useState(false);
 
   const userAuth = () => {
     const script = document.createElement('script');
@@ -39,6 +43,7 @@ function App() {
       (res) => {
         if (res.access_token) {
           localStorage.setItem('accessToken', res.access_token);
+          setCalendarToken(true);
         }
       }
     );
@@ -61,6 +66,16 @@ function App() {
       }
     });
   }, [dispatch]);
+
+  useEffect(() => {
+    getEvents().then((listOfEvents) => {
+      if (listOfEvents) {
+        dispatch(setEvents(listOfEvents));
+      } else {
+        dispatch(logOut());
+      }
+    });
+  }, [calendarToken, dispatch]);
 
   return (
     <div className="flex flex-col p-10">
