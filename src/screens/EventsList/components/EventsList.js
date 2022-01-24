@@ -2,41 +2,19 @@ import { useState } from 'react';
 import { FaTimes } from 'react-icons/fa';
 import Event from './Event/Event';
 
-function EventsListComponent({ events, addEvent, removeEvent }) {
-  const [addEventModal, setAddEventModal] = useState(false);
-  const [eventTitle, setEventTitle] = useState('');
-  const [eventStart, setEventStart] = useState('');
-  const [eventEnd, setEventEnd] = useState('');
-
-  const handleTitleChange = (e) => {
-    setEventTitle(e.target.value);
-  };
-  const handleEventStartChange = (e) => {
-    setEventStart(e.target.value);
-  };
-
-  const handleEventEndChange = (e) => {
-    setEventEnd(e.target.value);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    addEvent({
-      title: eventTitle,
-      start: {
-        dateTime: new Date(eventStart).toISOString(),
-      },
-      end: {
-        dateTime: new Date(eventEnd).toISOString(),
-      },
-    });
-
-    setEventTitle('');
-    setEventStart('');
-    setEventEnd('');
-  };
-
+function EventsListComponent({
+  events,
+  removeEvent,
+  addEventModal,
+  setAddEventModal,
+  handleSubmit,
+  handleTitleChange,
+  handleEventStartChange,
+  handleEventEndChange,
+  eventTitle,
+  eventStart,
+  eventEnd,
+}) {
   return (
     <div className="flex flex-col items-center">
       {addEventModal ? (
