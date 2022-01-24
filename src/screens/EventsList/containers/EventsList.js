@@ -16,8 +16,8 @@ function EventsList() {
   const events = useSelector(selectEvents);
   const dispatch = useDispatch();
 
-  const addEventFunction = () => {
-    addEventToCalendar().then((addedEvent) => {
+  const addEventFunction = (event) => {
+    addEventToCalendar(event).then((addedEvent) => {
       dispatch(addEvent(...addedEvent));
     });
   };

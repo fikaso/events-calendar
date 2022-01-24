@@ -7,7 +7,7 @@ const formatEvents = (list) => {
   }));
 };
 
-export const addEvent = async () => {
+export const addEvent = async (event) => {
   let data = null;
 
   try {
@@ -20,12 +20,12 @@ export const addEvent = async () => {
         },
         body: JSON.stringify({
           end: {
-            dateTime: new Date('Jan 18, 2022').toISOString(),
+            dateTime: event.end.dateTime,
           },
           start: {
-            dateTime: new Date('Jan 18, 2022').toISOString(),
+            dateTime: event.start.dateTime,
           },
-          summary: 'Added event',
+          summary: event.title,
         }),
       }
     );
