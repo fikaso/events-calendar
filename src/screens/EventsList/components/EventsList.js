@@ -14,6 +14,7 @@ function EventsListComponent({
   eventTitle,
   eventStart,
   eventEnd,
+  editEvent,
 }) {
   return (
     <div className="flex flex-col items-center">
@@ -34,19 +35,21 @@ function EventsListComponent({
               <div className="input space-x-5">
                 <label>Add event start date and time</label>
                 <input
-                  type="datetime-local"
+                  type="text"
                   onChange={handleEventStartChange}
                   onInput={handleEventStartChange}
                   value={eventStart}
+                  onFocus={(e) => (e.target.type = 'datetime-local')}
                 />
               </div>
               <div className="input space-x-5">
                 <label>Add event end date and time</label>
                 <input
-                  type="datetime-local"
+                  type="text"
                   onChange={handleEventEndChange}
                   onInput={handleEventEndChange}
                   value={eventEnd}
+                  onFocus={(e) => (e.target.type = 'datetime-local')}
                 />
               </div>
             </div>
@@ -83,6 +86,7 @@ function EventsListComponent({
           end={event.end}
           id={event.id}
           removeEvent={removeEvent}
+          editEvent={editEvent}
         />
       ))}
     </div>

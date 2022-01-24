@@ -38,6 +38,16 @@ function EventsList() {
     });
   };
 
+  const editEvent = (id) => {
+    events.map((event) => {
+      if (event.id === id) {
+        setEventStart(event.start);
+        setEventEnd(event.end);
+        setEventTitle(event.title);
+      }
+    });
+  };
+
   const handleTitleChange = (e) => {
     setEventTitle(e.target.value);
   };
@@ -80,6 +90,7 @@ function EventsList() {
         handleTitleChange={handleTitleChange}
         handleEventStartChange={handleEventStartChange}
         handleEventEndChange={handleEventEndChange}
+        editEvent={editEvent}
       />
 
       {/* <Calendar /> */}
