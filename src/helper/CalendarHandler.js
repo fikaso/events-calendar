@@ -42,7 +42,7 @@ export const getEvents = async () => {
     `https://www.googleapis.com/calendar/v3/calendars/${process.env.REACT_APP_CALENDAR_ID}/events?key=${process.env.REACT_APP_API_KEY}&orderBy=startTime&singleEvents=true`,
     {
       headers: {
-        Authorization: `${localStorage.getItem('accessToken')}`,
+        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
       },
     }
   );

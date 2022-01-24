@@ -14,7 +14,7 @@ function NavBar() {
     <div className="flex items-center mb-10 justify-between">
       <h1 className="text-3xl">Events Calendar</h1>
       <button onClick={signOut} className="flex items-center space-x-2">
-        {user ? (
+        {localStorage.getItem('accessToken') ? (
           <div className="flex items-center space-x-1">
             <img
               className="rounded-full h-8 w-8"

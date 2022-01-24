@@ -1,6 +1,4 @@
-import { signInWithPopup, signInWithCustomToken } from 'firebase/auth';
-import { useEffect } from 'react';
-import { useState } from 'react';
+import { signInWithPopup } from 'firebase/auth';
 import { auth, provider } from '../../firebase';
 
 function Login() {
@@ -10,8 +8,7 @@ function Login() {
     );
   };
   return (
-    <div className="flex flex-col items-center h-screen justify-center space-y-10">
-      <h2 className="text-xl">Please login</h2>
+    <div className="flex flex-col items-center h-screen justify-center">
       <button onClick={signIn}>
         <img src="./google_logo.svg" className="w-52 h-52" alt="" />
       </button>
