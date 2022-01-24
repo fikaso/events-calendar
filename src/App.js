@@ -1,13 +1,12 @@
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
 import NavBar from './components/NavBar';
 import { auth } from './firebase';
 import { getEvents } from './helper/CalendarHandler';
 import { setEvents } from './redux/eventsSlice';
-import { logIn, logOut, selectUser } from './redux/userSlice';
-import EventsList from './screens/eventsList/EventsList';
+import { logIn, logOut } from './redux/userSlice';
+import EventsList from './screens/EventsList/containers/EventsList';
 import Login from './screens/login/Login';
 
 function App() {
@@ -62,18 +61,22 @@ function App() {
         if (!localStorage.getItem('accessToken')) {
           userAuth();
         }
+      } else {
+        setCalendarToken(false);
       }
     });
   }, [dispatch]);
 
   useEffect(() => {
-    getEvents().then((listOfEvents) => {
-      if (listOfEvents) {
-        dispatch(setEvents(listOfEvents));
-      } else {
-        dispatch(logOut());
-      }
-    });
+    if (localStorage.getItem('accessToken')) {
+      getEvents().then((listOfEvents) => {
+        if (listOfEvents) {
+          dispatch(setEvents(listOfEvents));
+        } else {
+          dispatch(logOut());
+        }
+      });
+    }
   }, [calendarToken, dispatch]);
 
   return (

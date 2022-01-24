@@ -3,6 +3,7 @@ const formatEvents = (list) => {
     title: item.summary,
     start: item.start.dateTime || item.start.date,
     end: item.end.dateTime || item.end.date,
+    id: item.id,
   }));
 };
 
@@ -56,4 +57,18 @@ export const getEvents = async () => {
   } else {
     return null;
   }
+};
+
+export const removeEvent = async (eventId) => {
+  const res = await fetch(
+    `https://www.googleapis.com/calendar/v3/calendars/${process.env.REACT_APP_CALENDAR_ID}/events/${eventId}?key=${process.env.REACT_APP_API_KEY}`,
+    {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+      },
+    }
+  );
+
+  return res;
 };

@@ -12,10 +12,13 @@ export const eventsSlice = createSlice({
     addEvent: (state, action) => {
       state.value = [...state.value, action.payload];
     },
+    removeEvent: (state, action) => {
+      state.value = state.value.filter((event) => event.id !== action.payload);
+    },
   },
 });
 
-export const { setEvents, addEvent } = eventsSlice.actions;
+export const { setEvents, addEvent, removeEvent } = eventsSlice.actions;
 
 export const selectEvents = (state) => state.events.value;
 
