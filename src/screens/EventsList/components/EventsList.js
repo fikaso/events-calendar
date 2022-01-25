@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { useState } from 'react';
 import { FaTimes } from 'react-icons/fa';
 import Event from './Event/Event';

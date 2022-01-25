@@ -1,7 +1,10 @@
 import React from 'react';
 import { FaEdit, FaTimes } from 'react-icons/fa';
+import { useDispatch } from 'react-redux';
+import { editEvent } from '../../../../redux/editEventSlice';
 
-function Event({ title, start, end, id, removeEvent, editEvent }) {
+function Event({ title, start, end, id, removeEvent }) {
+  const dispatch = useDispatch();
   return (
     <div className="w-[40%] border-2 border-black my-2 text-center rounded-xl relative">
       <button
@@ -10,7 +13,19 @@ function Event({ title, start, end, id, removeEvent, editEvent }) {
       >
         <FaTimes size={20} />
       </button>
-      <button className="absolute left-1 top-1" onClick={() => editEvent(id)}>
+      <button
+        className="absolute left-1 top-1"
+        onClick={() =>
+          dispatch(
+            editEvent({
+              id,
+              title,
+              start,
+              end,
+            })
+          )
+        }
+      >
         <FaEdit size={20} />
       </button>
       <p>Event Title: {title}</p>

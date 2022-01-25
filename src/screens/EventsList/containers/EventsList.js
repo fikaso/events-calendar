@@ -3,27 +3,48 @@ import {
   addEvent,
   removeEvent,
   selectEvents,
+  updateEvent,
 } from '../../../redux/eventsSlice';
 import {
   addEvent as addEventToCalendar,
   removeEvent as removeEventFromCalendar,
+  updateEventInCalendar,
 } from '../../../helper/CalendarHandler';
 import Calendar from '../../Calendar/Calendar';
 import { useDispatch } from 'react-redux';
 import EventsListComponent from '../components/EventsList';
 import { useState } from 'react';
+import { useEffect } from 'react';
+import { disableEdit, selectEditedEvent } from '../../../redux/editEventSlice';
 
 function EventsList() {
   const events = useSelector(selectEvents);
   const dispatch = useDispatch();
+  const editedEvent = useSelector(selectEditedEvent);
 
   const [addEventModal, setAddEventModal] = useState(false);
   const [eventTitle, setEventTitle] = useState('');
   const [eventStart, setEventStart] = useState('');
   const [eventEnd, setEventEnd] = useState('');
 
-  const addEventFunction = (event) => {
-    addEventToCalendar(event).then((addedEvent) => {
+  useEffect(() => {
+    if (editedEvent.edit === true) {
+      setEventTitle(editedEvent.value.title);
+      setEventStart(editedEvent.value.start);
+      setEventEnd(editedEvent.value.end);
+    }
+  }, [editedEvent]);
+
+  const addEventFunction = () => {
+    addEventToCalendar({
+      title: eventTitle,
+      start: {
+        dateTime: new Date(eventStart).toISOString(),
+      },
+      end: {
+        dateTime: new Date(eventEnd).toISOString(),
+      },
+    }).then((addedEvent) => {
       dispatch(addEvent(...addedEvent));
     });
   };
@@ -38,13 +59,15 @@ function EventsList() {
     });
   };
 
-  const editEvent = (id) => {
-    events.map((event) => {
-      if (event.id === id) {
-        setEventStart(event.start);
-        setEventEnd(event.end);
-        setEventTitle(event.title);
-      }
+  const updateEventFunction = () => {
+    updateEventInCalendar({
+      id: editedEvent.value.id,
+      title: eventTitle,
+      start: new Date(eventStart).toISOString(),
+      end: new Date(eventEnd).toISOString(),
+    }).then((response) => {
+      dispatch(updateEvent(...response));
+      dispatch(disableEdit());
     });
   };
 
@@ -61,15 +84,12 @@ function EventsList() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    addEventFunction({
-      title: eventTitle,
-      start: {
-        dateTime: new Date(eventStart).toISOString(),
-      },
-      end: {
-        dateTime: new Date(eventEnd).toISOString(),
-      },
-    });
+
+    if (editedEvent.edit === true) {
+      updateEventFunction();
+    } else {
+      addEventFunction();
+    }
 
     setEventTitle('');
     setEventStart('');
@@ -90,7 +110,6 @@ function EventsList() {
         handleTitleChange={handleTitleChange}
         handleEventStartChange={handleEventStartChange}
         handleEventEndChange={handleEventEndChange}
-        editEvent={editEvent}
       />
 
       {/* <Calendar /> */}
