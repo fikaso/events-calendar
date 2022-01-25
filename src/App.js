@@ -6,7 +6,7 @@ import { auth } from './firebase';
 import { getEvents } from './helper/CalendarHandler';
 import { setEvents } from './redux/eventsSlice';
 import { logIn, logOut } from './redux/userSlice';
-import EventsList from './screens/EventsList/containers/EventsList';
+import HomeScreen from './screens/HomeScreen/HomeScreen';
 import Login from './screens/login/Login';
 
 function App() {
@@ -82,7 +82,7 @@ function App() {
   return (
     <div className="flex flex-col p-10">
       <NavBar />
-      {localStorage.getItem('accessToken') ? <EventsList /> : <Login />}
+      {localStorage.getItem('accessToken') ? <HomeScreen /> : <Login />}
     </div>
   );
 }

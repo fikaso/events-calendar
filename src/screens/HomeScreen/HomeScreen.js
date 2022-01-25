@@ -4,18 +4,18 @@ import {
   removeEvent,
   selectEvents,
   updateEvent,
-} from '../../../redux/eventsSlice';
+} from '../../redux/eventsSlice';
 import {
   addEvent as addEventToCalendar,
   removeEvent as removeEventFromCalendar,
   updateEventInCalendar,
-} from '../../../helper/CalendarHandler';
-import Calendar from '../../Calendar/Calendar';
+} from '../../helper/CalendarHandler';
+import Calendar from '../Calendar/Calendar';
 import { useDispatch } from 'react-redux';
-import EventsListComponent from '../components/EventsList';
+import EventsListComponent from '../EventsList/EventsList';
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { disableEdit, selectEditedEvent } from '../../../redux/editEventSlice';
+import { disableEdit, selectEditedEvent } from '../../redux/editEventSlice';
 
 function EventsList() {
   const events = useSelector(selectEvents);
