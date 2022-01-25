@@ -17,7 +17,7 @@ import EventsListComponent from '../EventsList/EventsList';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { disableEdit, selectEditedEvent } from '../../redux/editEventSlice';
-import { selectViewDays } from '../../redux/viewSlice';
+import { selectViewDays, selectViewKind } from '../../redux/viewSlice';
 
 function EventsList() {
   const dispatch = useDispatch();
@@ -25,12 +25,12 @@ function EventsList() {
   const eventsToday = useSelector(selectEventsToday);
   const eventsInWeek = useSelector(selectEventsInWeek);
   const editedEvent = useSelector(selectEditedEvent);
+  const viewKind = useSelector(selectViewKind);
 
   const [addEventModal, setAddEventModal] = useState(false);
   const [eventTitle, setEventTitle] = useState('');
   const [eventStart, setEventStart] = useState('');
   const [eventEnd, setEventEnd] = useState('');
-  const [calendarView, setCalendarView] = useState(false);
 
   useEffect(() => {
     if (editedEvent.edit === true) {
@@ -111,8 +111,8 @@ function EventsList() {
 
   return (
     <div className="">
-      {calendarView ? (
-        <Calendar setCalendarView={setCalendarView} />
+      {viewKind ? (
+        <Calendar />
       ) : (
         <div className="flex flex-col items-center justify-center">
           <EventsListComponent
@@ -134,12 +134,6 @@ function EventsList() {
             handleEventStartChange={handleEventStartChange}
             handleEventEndChange={handleEventEndChange}
           />
-          <button
-            className="bg-[#9c43c5] p-2 rounded-2xl text-white w-32 mt-2"
-            onClick={() => setCalendarView(true)}
-          >
-            Calendar View
-          </button>
         </div>
       )}
     </div>

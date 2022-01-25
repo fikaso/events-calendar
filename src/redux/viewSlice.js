@@ -3,12 +3,12 @@ import { createSlice } from '@reduxjs/toolkit';
 export const viewSlice = createSlice({
   name: 'view',
   initialState: {
-    kind: 'list',
+    kind: false,
     viewDays: 7,
   },
   reducers: {
-    setKind: (state, action) => {
-      state.kind = action.payload;
+    toggleKind: (state) => {
+      state.kind = !state.kind;
     },
     setViewDays: (state, action) => {
       state.viewDays = action.payload;
@@ -16,7 +16,7 @@ export const viewSlice = createSlice({
   },
 });
 
-export const { setKind, setViewDays } = viewSlice.actions;
+export const { toggleKind, setViewDays } = viewSlice.actions;
 
 export const selectViewKind = (state) => state.view.kind;
 export const selectViewDays = (state) => state.view.viewDays;

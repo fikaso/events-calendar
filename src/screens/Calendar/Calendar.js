@@ -8,8 +8,9 @@ import { useSelector } from 'react-redux';
 import { selectEventsInWeek } from '../../redux/eventsSlice';
 import { useDispatch } from 'react-redux';
 import { addEvent } from '../../redux/eventsSlice';
+import { toggleKind } from '../../redux/viewSlice';
 
-function Calendar({ setCalendarView }) {
+function Calendar({ toggleView }) {
   const dispatch = useDispatch();
   const events = useSelector(selectEventsInWeek);
   const addEventFunction = () => {
@@ -50,7 +51,7 @@ function Calendar({ setCalendarView }) {
         />
       )}
       <button
-        onClick={() => setCalendarView(false)}
+        onClick={() => dispatch(toggleKind())}
         className="bg-[#9c43c5] p-2 rounded-2xl text-white w-32 mt-10"
       >
         Events List View

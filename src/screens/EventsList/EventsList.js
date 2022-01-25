@@ -1,6 +1,3 @@
-import { useRef } from 'react';
-import { useState } from 'react';
-import { FaTimes } from 'react-icons/fa';
 import EventInputModal from '../../components/EventInputModal';
 import Event from './components/Event/Event';
 
