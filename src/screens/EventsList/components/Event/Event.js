@@ -3,7 +3,7 @@ import { FaEdit, FaTimes } from 'react-icons/fa';
 import { useDispatch } from 'react-redux';
 import { editEvent } from '../../../../redux/editEventSlice';
 
-function Event({ title, start, end, id, removeEvent }) {
+function Event({ title, start, end, id, removeEvent, setAddEventModal }) {
   const dispatch = useDispatch();
   return (
     <div className="w-[40%] border-2 border-black my-2 text-center rounded-xl relative">
@@ -15,7 +15,8 @@ function Event({ title, start, end, id, removeEvent }) {
       </button>
       <button
         className="absolute left-1 top-1"
-        onClick={() =>
+        onClick={() => {
+          setAddEventModal(true);
           dispatch(
             editEvent({
               id,
@@ -23,8 +24,8 @@ function Event({ title, start, end, id, removeEvent }) {
               start,
               end,
             })
-          )
-        }
+          );
+        }}
       >
         <FaEdit size={20} />
       </button>

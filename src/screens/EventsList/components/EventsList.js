@@ -88,6 +88,7 @@ function EventsListComponent({
           id={event.id}
           removeEvent={removeEvent}
           editEvent={editEvent}
+          setAddEventModal={setAddEventModal}
         />
       ))}
     </div>
