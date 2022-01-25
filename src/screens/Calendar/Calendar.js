@@ -5,13 +5,13 @@ import React from 'react';
 
 import { addEvent as addEventToCalendar } from '../../helper/CalendarHandler';
 import { useSelector } from 'react-redux';
-import { selectEvents } from '../../redux/eventsSlice';
+import { selectEventsInWeek } from '../../redux/eventsSlice';
 import { useDispatch } from 'react-redux';
 import { addEvent } from '../../redux/eventsSlice';
 
 function Calendar({ setCalendarView }) {
   const dispatch = useDispatch();
-  const events = useSelector(selectEvents);
+  const events = useSelector(selectEventsInWeek);
   const addEventFunction = () => {
     addEventToCalendar().then((addedEvent) => {
       dispatch(addEvent(...addedEvent));

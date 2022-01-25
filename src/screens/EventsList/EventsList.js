@@ -46,6 +46,8 @@ function HomeScreen({
           title={event.title}
           start={event.start}
           end={event.end}
+          startDay={event.startDay}
+          endDay={event.endDay}
           id={event.id}
           removeEvent={removeEvent}
           editEvent={editEvent}

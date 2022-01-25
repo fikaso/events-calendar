@@ -3,26 +3,37 @@ import { createSlice } from '@reduxjs/toolkit';
 export const eventsSlice = createSlice({
   name: 'events',
   initialState: {
-    value: [],
+    week: [],
+    today: [],
   },
   reducers: {
     setEvents: (state, action) => {
-      state.value = action.payload;
+      const { eventsToday, eventsWeek } = action.payload;
+      state.week = eventsWeek;
+      state.today = eventsToday;
     },
     addEvent: (state, action) => {
-      state.value = [...state.value, action.payload];
+      const { eventsToday, eventsWeek } = action.payload;
+      state.week = [...state.week, ...eventsWeek];
+      state.today = [...state.today, ...eventsToday];
+      // if(action.payload.)
+      // state.week = [...state.week, action.payload];
     },
     removeEvent: (state, action) => {
-      state.value = state.value.filter((event) => event.id !== action.payload);
+      state.week = state.week.filter((event) => event.id !== action.payload);
+      state.today = state.today.filter((event) => event.id !== action.payload);
     },
     updateEvent: (state, action) => {
-      state.value = state.value.map((event) => {
-        if (event.id === action.payload.id) {
-          return action.payload;
+      const { eventsToday, eventsWeek } = action.payload;
+      state.today = state.today.map((event) => {
+        if (event.id === eventsToday[0].id) {
+          return eventsToday[0];
         } else {
           return event;
         }
       });
+
+      state.week = [...state.week];
     },
   },
 });
@@ -30,6 +41,7 @@ export const eventsSlice = createSlice({
 export const { setEvents, addEvent, removeEvent, updateEvent } =
   eventsSlice.actions;
 
-export const selectEvents = (state) => state.events.value;
+export const selectEventsToday = (state) => state.events.today;
+export const selectEventsInWeek = (state) => state.events.week;
 
 export default eventsSlice.reducer;

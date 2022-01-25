@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux';
 import {
   addEvent,
   removeEvent,
-  selectEvents,
+  selectEventsToday,
   updateEvent,
 } from '../../redux/eventsSlice';
 import {
@@ -18,8 +18,8 @@ import { useEffect } from 'react';
 import { disableEdit, selectEditedEvent } from '../../redux/editEventSlice';
 
 function EventsList() {
-  const events = useSelector(selectEvents);
   const dispatch = useDispatch();
+  const events = useSelector(selectEventsToday);
   const editedEvent = useSelector(selectEditedEvent);
 
   const [addEventModal, setAddEventModal] = useState(false);
@@ -46,7 +46,7 @@ function EventsList() {
         dateTime: new Date(eventEnd).toISOString(),
       },
     }).then((addedEvent) => {
-      dispatch(addEvent(...addedEvent));
+      dispatch(addEvent(addedEvent));
     });
   };
 
@@ -66,8 +66,8 @@ function EventsList() {
       title: eventTitle,
       start: new Date(eventStart).toISOString(),
       end: new Date(eventEnd).toISOString(),
-    }).then((response) => {
-      dispatch(updateEvent(...response));
+    }).then((updatedEvent) => {
+      dispatch(updateEvent(updatedEvent));
       dispatch(disableEdit());
     });
   };
