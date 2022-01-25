@@ -9,7 +9,7 @@ import { selectEvents } from '../../redux/eventsSlice';
 import { useDispatch } from 'react-redux';
 import { addEvent } from '../../redux/eventsSlice';
 
-function Calendar() {
+function Calendar({ setCalendarView }) {
   const dispatch = useDispatch();
   const events = useSelector(selectEvents);
   const addEventFunction = () => {
@@ -49,6 +49,12 @@ function Calendar() {
           }}
         />
       )}
+      <button
+        onClick={() => setCalendarView(false)}
+        className="bg-[#9c43c5] p-2 rounded-2xl text-white w-32 mt-10"
+      >
+        Events List View
+      </button>
     </>
   );
 }
