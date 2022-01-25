@@ -2,6 +2,7 @@ import { useSelector } from 'react-redux';
 import {
   addEvent,
   removeEvent,
+  selectEventsInWeek,
   selectEventsToday,
   updateEvent,
 } from '../../redux/eventsSlice';
@@ -16,10 +17,13 @@ import EventsListComponent from '../EventsList/EventsList';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { disableEdit, selectEditedEvent } from '../../redux/editEventSlice';
+import { selectViewDays } from '../../redux/viewSlice';
 
 function EventsList() {
   const dispatch = useDispatch();
-  const events = useSelector(selectEventsToday);
+  const viewDays = useSelector(selectViewDays);
+  const eventsToday = useSelector(selectEventsToday);
+  const eventsInWeek = useSelector(selectEventsInWeek);
   const editedEvent = useSelector(selectEditedEvent);
 
   const [addEventModal, setAddEventModal] = useState(false);
@@ -46,7 +50,11 @@ function EventsList() {
         dateTime: new Date(eventEnd).toISOString(),
       },
     }).then((addedEvent) => {
-      dispatch(addEvent(addedEvent));
+      if (typeof addedEvent === 'string') {
+        dispatch(removeEvent(addedEvent));
+      } else {
+        dispatch(addEvent(addedEvent));
+      }
     });
   };
 
@@ -67,9 +75,13 @@ function EventsList() {
       start: new Date(eventStart).toISOString(),
       end: new Date(eventEnd).toISOString(),
     }).then((updatedEvent) => {
-      dispatch(updateEvent(updatedEvent));
-      dispatch(disableEdit());
+      if (typeof updatedEvent === 'string') {
+        dispatch(removeEvent(updatedEvent));
+      } else {
+        dispatch(updateEvent(updatedEvent));
+      }
     });
+    dispatch(disableEdit());
   };
 
   const handleTitleChange = (e) => {
@@ -104,7 +116,13 @@ function EventsList() {
       ) : (
         <div className="flex flex-col items-center justify-center">
           <EventsListComponent
-            events={events}
+            events={
+              viewDays === 1
+                ? eventsToday
+                : viewDays === 7
+                ? eventsInWeek
+                : null
+            }
             addEventModal={addEventModal}
             eventTitle={eventTitle}
             eventStart={eventStart}
@@ -117,7 +135,7 @@ function EventsList() {
             handleEventEndChange={handleEventEndChange}
           />
           <button
-            className="bg-[#9c43c5] p-2 rounded-2xl text-white w-32 mt-10"
+            className="bg-[#9c43c5] p-2 rounded-2xl text-white w-32 mt-2"
             onClick={() => setCalendarView(true)}
           >
             Calendar View

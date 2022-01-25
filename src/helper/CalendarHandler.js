@@ -29,7 +29,12 @@ const formatEvents = (events) => {
   }));
 
   const { eventsToday, eventsWeek } = sortEvents(formatedEvents);
-  return { eventsToday, eventsWeek };
+
+  if (eventsWeek.length === 0 && eventsWeek.length === 0) {
+    return events[0].id;
+  } else {
+    return { eventsToday, eventsWeek };
+  }
 };
 
 export const addEvent = async (event) => {

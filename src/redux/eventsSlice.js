@@ -16,8 +16,6 @@ export const eventsSlice = createSlice({
       const { eventsToday, eventsWeek } = action.payload;
       state.week = [...state.week, ...eventsWeek];
       state.today = [...state.today, ...eventsToday];
-      // if(action.payload.)
-      // state.week = [...state.week, action.payload];
     },
     removeEvent: (state, action) => {
       state.week = state.week.filter((event) => event.id !== action.payload);
@@ -25,15 +23,25 @@ export const eventsSlice = createSlice({
     },
     updateEvent: (state, action) => {
       const { eventsToday, eventsWeek } = action.payload;
-      state.today = state.today.map((event) => {
-        if (event.id === eventsToday[0].id) {
-          return eventsToday[0];
-        } else {
-          return event;
-        }
-      });
+      if (eventsToday.length !== 0) {
+        state.today = state.today.map((event) => {
+          if (event.id === eventsToday[0].id) {
+            return eventsToday[0];
+          } else {
+            return event;
+          }
+        });
+      }
 
-      state.week = [...state.week];
+      if (eventsWeek.length !== 0) {
+        state.week = state.week.map((event) => {
+          if (event.id === eventsWeek[0].id) {
+            return eventsWeek[0];
+          } else {
+            return event;
+          }
+        });
+      }
     },
   },
 });
