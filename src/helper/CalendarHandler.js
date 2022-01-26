@@ -24,9 +24,6 @@ const sortEvents = (events) => {
     )
   );
 
-  console.log('eventsToday: ', eventsToday);
-  console.log('eventsInWeek: ', eventsInWeek);
-  console.log('eventsInMonth: ', eventsInMonth);
   return { eventsToday, eventsInWeek, eventsInMonth };
 };
 
@@ -44,7 +41,7 @@ const formatEvents = (events) => {
     sortEvents(formatedEvents);
 
   if (
-    eventsInWeek.length === 0 &&
+    eventsToday.length === 0 &&
     eventsInWeek.length === 0 &&
     eventsInMonth.length === 0
   ) {
@@ -91,8 +88,6 @@ export const getEvents = async () => {
       },
     }
   );
-
-  console.log('res get ', res);
   if (res.status === 200) {
     const data = await res.json();
     if (data.items.length !== 0) {

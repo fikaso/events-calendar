@@ -39,6 +39,10 @@ function EventsList() {
       setEventTitle(editedEvent.value.title);
       setEventStart(editedEvent.value.start);
       setEventEnd(editedEvent.value.end);
+    } else {
+      setEventTitle('');
+      setEventStart('');
+      setEventEnd('');
     }
   }, [editedEvent]);
 

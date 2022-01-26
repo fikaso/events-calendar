@@ -1,7 +1,7 @@
 import EventInputModal from '../../components/EventInputModal';
 import Event from './components/Event/Event';
 
-function HomeScreen({
+function EventList({
   events,
   removeEvent,
   addEventModal,
@@ -55,4 +55,4 @@ function HomeScreen({
   );
 }
 
-export default HomeScreen;
+export default EventList;

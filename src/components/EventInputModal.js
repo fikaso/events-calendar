@@ -1,3 +1,7 @@
+import react from 'react';
+import { useDispatch } from 'react-redux';
+import { disableEdit } from '../redux/editEventSlice';
+
 function EventInputModal({
   handleSubmit,
   eventTitle,
@@ -8,6 +12,7 @@ function EventInputModal({
   handleEventEndChange,
   setAddEventModal,
 }) {
+  const dispatch = useDispatch();
   return (
     <div className="w-[70%] max-w-[1200px]">
       <div className="border border-[#e2e2e2] p-4 rounded-xl mb-10">
@@ -53,7 +58,10 @@ function EventInputModal({
             </button>
             <button
               className="bg-[#1c75a8] p-2 rounded-2xl text-white w-32"
-              onClick={() => setAddEventModal(false)}
+              onClick={() => {
+                dispatch(disableEdit());
+                setAddEventModal(false);
+              }}
             >
               Cancle
             </button>
