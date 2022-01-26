@@ -77,10 +77,10 @@ export const getEvents = async () => {
 
   if (res.status === 200) {
     const data = await res.json();
-    if (data.items) {
+    if (data.items.length !== 0) {
       return formatEvents(data.items);
     }
-    return data;
+    return null;
   } else {
     return null;
   }

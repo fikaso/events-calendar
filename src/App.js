@@ -72,8 +72,6 @@ function App() {
       getEvents().then((listOfEvents) => {
         if (listOfEvents) {
           dispatch(setEvents(listOfEvents));
-        } else {
-          dispatch(logOut());
         }
       });
     }
