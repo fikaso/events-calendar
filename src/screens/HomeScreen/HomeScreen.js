@@ -19,13 +19,16 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import { disableEdit, selectEditedEvent } from '../../redux/editEventSlice';
 import { selectViewDays, selectViewKind } from '../../redux/viewSlice';
+import { groupByDays, groupByWeeks } from '../../helper/DatesHandler';
 
 function EventsList() {
   const dispatch = useDispatch();
   const viewDays = useSelector(selectViewDays);
   const eventsToday = useSelector(selectEventsToday);
   const eventsInWeek = useSelector(selectEventsInWeek);
+  const groupedByDay = groupByDays(eventsInWeek);
   const eventsInMonth = useSelector(selectEventsInMonth);
+  let groupedByWeeks = groupByWeeks(eventsInMonth);
   const editedEvent = useSelector(selectEditedEvent);
   const viewKind = useSelector(selectViewKind);
 
@@ -85,6 +88,7 @@ function EventsList() {
         dispatch(removeEvent(updatedEvent));
       } else {
         dispatch(updateEvent(updatedEvent));
+        groupedByWeeks = groupByWeeks(eventsInMonth);
       }
     });
     dispatch(disableEdit());
@@ -126,9 +130,9 @@ function EventsList() {
               viewDays === 1
                 ? eventsToday
                 : viewDays === 7
-                ? eventsInWeek
+                ? groupedByDay
                 : viewDays === 30
-                ? eventsInMonth
+                ? groupedByWeeks
                 : null
             }
             addEventModal={addEventModal}

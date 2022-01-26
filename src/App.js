@@ -5,7 +5,7 @@ import NavBar from './components/NavBar';
 import { auth } from './firebase';
 import { getEvents } from './helper/CalendarHandler';
 import { setEvents } from './redux/eventsSlice';
-import { logIn, logOut } from './redux/userSlice';
+import { logIn } from './redux/userSlice';
 import HomeScreen from './screens/HomeScreen/HomeScreen';
 import Login from './screens/login/Login';
 

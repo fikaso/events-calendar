@@ -1,28 +1,27 @@
 import moment from 'moment';
+import { groupByWeeks } from './DatesHandler';
+
+const filterBetweenDates = (events, startDate, endDate) => {
+  return events.filter((event) =>
+    moment(moment(event.start).format('L')).isBetween(
+      moment(startDate).format('L'),
+      moment(startDate).add(endDate, 'days').format('L'),
+      'days',
+      '[]'
+    )
+  );
+};
 
 const sortEvents = (events) => {
   const now = moment(new Date(Date.now()).toISOString()).format('L');
+
   const eventsToday = events.filter((event) =>
     moment(now).isSame(moment(event.start).format('L'))
   );
+  const eventsInWeek = filterBetweenDates(events, now, 7);
+  const eventsInMonth = filterBetweenDates(events, now, 30);
 
-  const eventsInWeek = events.filter((event) =>
-    moment(moment(event.start).format('L')).isBetween(
-      moment(now).format('L'),
-      moment(now).add(7, 'days').format('L'),
-      'days',
-      '[]'
-    )
-  );
-
-  const eventsInMonth = events.filter((event) =>
-    moment(moment(event.start).format('L')).isBetween(
-      moment(now).format('L'),
-      moment(now).add(30, 'days').format('L'),
-      'days',
-      '[]'
-    )
-  );
+  groupByWeeks(eventsInMonth);
 
   return { eventsToday, eventsInWeek, eventsInMonth };
 };
@@ -34,6 +33,7 @@ const formatEvents = (events) => {
     end: event.end.dateTime || event.end.date,
     startDay: moment(event.start.dateTime).format('dddd'),
     endDay: moment(event.end.dateTime).format('dddd'),
+    weekOfMonth: Math.ceil(moment(event.start.dateTime).date() / 7),
     id: event.id,
   }));
 

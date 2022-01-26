@@ -1,4 +1,6 @@
+import { useSelector } from 'react-redux';
 import EventInputModal from '../../components/EventInputModal';
+import { selectViewDays } from '../../redux/viewSlice';
 import Event from './components/Event/Event';
 
 function EventList({
@@ -15,6 +17,7 @@ function EventList({
   eventEnd,
   editEvent,
 }) {
+  const viewDays = useSelector(selectViewDays);
   return (
     <div className="flex flex-col items-center w-full">
       {addEventModal ? (
@@ -36,21 +39,45 @@ function EventList({
           Add Event
         </button>
       )}
-
-      {events?.map((event) => (
-        <Event
-          key={event.id}
-          title={event.title}
-          start={event.start}
-          end={event.end}
-          startDay={event.startDay}
-          endDay={event.endDay}
-          id={event.id}
-          removeEvent={removeEvent}
-          editEvent={editEvent}
-          setAddEventModal={setAddEventModal}
-        />
-      ))}
+      {viewDays === 7 || viewDays === 30 ? (
+        <>
+          {Object.keys(events).map((keyName) => (
+            <div className="w-full mb-10">
+              {events[keyName].map((event) => (
+                <Event
+                  key={event.id}
+                  title={event.title}
+                  start={event.start}
+                  end={event.end}
+                  startDay={event.startDay}
+                  endDay={event.endDay}
+                  id={event.id}
+                  removeEvent={removeEvent}
+                  editEvent={editEvent}
+                  setAddEventModal={setAddEventModal}
+                />
+              ))}
+            </div>
+          ))}
+        </>
+      ) : (
+        <>
+          {events?.map((event) => (
+            <Event
+              key={event.id}
+              title={event.title}
+              start={event.start}
+              end={event.end}
+              startDay={event.startDay}
+              endDay={event.endDay}
+              id={event.id}
+              removeEvent={removeEvent}
+              editEvent={editEvent}
+              setAddEventModal={setAddEventModal}
+            />
+          ))}
+        </>
+      )}
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const sortFunction = (a, b) => new Date(a.start) - new Date(b.start);
+const orderByDateAsc = (a, b) => new Date(a.start) - new Date(b.start);
 
 export const eventsSlice = createSlice({
   name: 'events',
@@ -19,9 +19,9 @@ export const eventsSlice = createSlice({
     addEvent: (state, action) => {
       const { eventsToday, eventsInWeek, eventsInMonth } = action.payload;
 
-      state.today = [...state.today, ...eventsToday].sort(sortFunction);
-      state.week = [...state.week, ...eventsInWeek].sort(sortFunction);
-      state.month = [...state.month, ...eventsInMonth].sort(sortFunction);
+      state.today = [...state.today, ...eventsToday].sort(orderByDateAsc);
+      state.week = [...state.week, ...eventsInWeek].sort(orderByDateAsc);
+      state.month = [...state.month, ...eventsInMonth].sort(orderByDateAsc);
     },
     removeEvent: (state, action) => {
       state.week = state.week.filter((event) => event.id !== action.payload);
