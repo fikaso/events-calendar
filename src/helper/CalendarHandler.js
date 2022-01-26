@@ -6,7 +6,7 @@ const sortEvents = (events) => {
     moment(now).isSame(moment(event.start).format('L'))
   );
 
-  const eventsWeek = events.filter((event) =>
+  const eventsInWeek = events.filter((event) =>
     moment(moment(event.start).format('L')).isBetween(
       moment(now).format('L'),
       moment(now).add(7, 'days').format('L'),
@@ -15,7 +15,19 @@ const sortEvents = (events) => {
     )
   );
 
-  return { eventsToday, eventsWeek };
+  const eventsInMonth = events.filter((event) =>
+    moment(moment(event.start).format('L')).isBetween(
+      moment(now).format('L'),
+      moment(now).add(30, 'days').format('L'),
+      'days',
+      '[]'
+    )
+  );
+
+  console.log('eventsToday: ', eventsToday);
+  console.log('eventsInWeek: ', eventsInWeek);
+  console.log('eventsInMonth: ', eventsInMonth);
+  return { eventsToday, eventsInWeek, eventsInMonth };
 };
 
 const formatEvents = (events) => {
@@ -28,12 +40,17 @@ const formatEvents = (events) => {
     id: event.id,
   }));
 
-  const { eventsToday, eventsWeek } = sortEvents(formatedEvents);
+  const { eventsToday, eventsInWeek, eventsInMonth } =
+    sortEvents(formatedEvents);
 
-  if (eventsWeek.length === 0 && eventsWeek.length === 0) {
+  if (
+    eventsInWeek.length === 0 &&
+    eventsInWeek.length === 0 &&
+    eventsInMonth.length === 0
+  ) {
     return events[0].id;
   } else {
-    return { eventsToday, eventsWeek };
+    return { eventsToday, eventsInWeek, eventsInMonth };
   }
 };
 
@@ -75,6 +92,7 @@ export const getEvents = async () => {
     }
   );
 
+  console.log('res get ', res);
   if (res.status === 200) {
     const data = await res.json();
     if (data.items.length !== 0) {

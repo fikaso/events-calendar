@@ -33,21 +33,29 @@ function NavBar() {
       </div>
       {user && (
         <>
-          <div className="flex items-center space-x-5">
-            <h3 className="text-xl">Events to display</h3>
-            <button
-              onClick={() => dispatch(setViewDays(1))}
-              className="bg-[#9c43c5] p-2 rounded-2xl text-white w-32"
-            >
-              Today
-            </button>
-            <button
-              onClick={() => dispatch(setViewDays(7))}
-              className="bg-[#9c43c5] p-2 rounded-2xl text-white w-32"
-            >
-              7 days
-            </button>
-          </div>
+          {!viewKind && (
+            <div className="flex items-center space-x-5">
+              <h3 className="text-xl">Events to display</h3>
+              <button
+                onClick={() => dispatch(setViewDays(1))}
+                className="bg-[#9c43c5] p-2 rounded-2xl text-white w-32"
+              >
+                Today
+              </button>
+              <button
+                onClick={() => dispatch(setViewDays(7))}
+                className="bg-[#9c43c5] p-2 rounded-2xl text-white w-32"
+              >
+                7 days
+              </button>
+              <button
+                onClick={() => dispatch(setViewDays(30))}
+                className="bg-[#9c43c5] p-2 rounded-2xl text-white w-32"
+              >
+                30 days
+              </button>
+            </div>
+          )}
           <button
             className="bg-[#9c43c5] p-2 rounded-2xl text-white w-32 mt-2"
             onClick={() => dispatch(toggleKind())}

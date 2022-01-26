@@ -2,6 +2,7 @@ import { useSelector } from 'react-redux';
 import {
   addEvent,
   removeEvent,
+  selectEventsInMonth,
   selectEventsInWeek,
   selectEventsToday,
   updateEvent,
@@ -24,6 +25,7 @@ function EventsList() {
   const viewDays = useSelector(selectViewDays);
   const eventsToday = useSelector(selectEventsToday);
   const eventsInWeek = useSelector(selectEventsInWeek);
+  const eventsInMonth = useSelector(selectEventsInMonth);
   const editedEvent = useSelector(selectEditedEvent);
   const viewKind = useSelector(selectViewKind);
 
@@ -121,6 +123,8 @@ function EventsList() {
                 ? eventsToday
                 : viewDays === 7
                 ? eventsInWeek
+                : viewDays === 30
+                ? eventsInMonth
                 : null
             }
             addEventModal={addEventModal}

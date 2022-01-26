@@ -4,7 +4,7 @@ export const viewSlice = createSlice({
   name: 'view',
   initialState: {
     kind: false,
-    viewDays: 7,
+    viewDays: 30,
   },
   reducers: {
     toggleKind: (state) => {
