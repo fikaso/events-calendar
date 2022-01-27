@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.input {
+  @apply focus:outline-none text-center self-stretch rounded-md bg-[#dfdfdf] p-2 text-gray-500 font-bold;
+}

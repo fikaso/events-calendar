@@ -1,18 +1,23 @@
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import NavBar from './components/NavBar';
+import { viewKind } from './data/viewEnums';
 import { auth } from './firebase';
-import { getEvents } from './helper/CalendarHandler';
+import { getEvents } from './helper/CalendarApiHandler';
 import { setEvents } from './redux/eventsSlice';
-import { logIn, logOut, selectUser } from './redux/userSlice';
-import EventsList from './screens/eventsList/EventsList';
+import { logIn, selectUser } from './redux/userSlice';
+import { selectViewKind } from './redux/viewSlice';
+import Calendar from './screens/Calendar/components/Calendar';
+import EventList from './screens/EventsList/containers/EventList';
 import Login from './screens/login/Login';
 
 function App() {
   const dispatch = useDispatch();
   const [calendarToken, setCalendarToken] = useState(false);
+
+  const user = useSelector(selectUser);
+  const view = useSelector(selectViewKind);
 
   const userAuth = () => {
     const script = document.createElement('script');
@@ -49,6 +54,10 @@ function App() {
   };
 
   useEffect(() => {
+    return;
+  }, [user]);
+
+  useEffect(() => {
     auth.onAuthStateChanged((authUser) => {
       if (authUser) {
         dispatch(
@@ -62,24 +71,34 @@ function App() {
         if (!localStorage.getItem('accessToken')) {
           userAuth();
         }
+      } else {
+        setCalendarToken(false);
       }
     });
   }, [dispatch]);
 
   useEffect(() => {
-    getEvents().then((listOfEvents) => {
-      if (listOfEvents) {
-        dispatch(setEvents(listOfEvents));
-      } else {
-        dispatch(logOut());
-      }
-    });
+    if (localStorage.getItem('accessToken')) {
+      getEvents().then((listOfEvents) => {
+        if (listOfEvents) {
+          dispatch(setEvents(listOfEvents));
+        }
+      });
+    }
   }, [calendarToken, dispatch]);
 
   return (
     <div className="flex flex-col p-10">
       <NavBar />
-      {localStorage.getItem('accessToken') ? <EventsList /> : <Login />}
+      {localStorage.getItem('accessToken') ? (
+        view === viewKind.CALENDAR ? (
+          <Calendar />
+        ) : (
+          <EventList />
+        )
+      ) : (
+        <Login />
+      )}
     </div>
   );
 }
