@@ -1,7 +1,9 @@
 import { useSelector } from 'react-redux';
 import EventInputModal from '../../../components/EventInputModal/containers/EventInputModal';
+import { displayView } from '../../../data/viewEnums';
 import { selectViewDays } from '../../../redux/viewSlice';
 import Event from './Event/containers/Event';
+import EventsGroup from './EventsGroup/components/EventsGroup';
 
 function EventsListComponent({ events, editMode, toogleEdit }) {
   const viewDays = useSelector(selectViewDays);
@@ -18,24 +20,7 @@ function EventsListComponent({ events, editMode, toogleEdit }) {
           Add Event
         </button>
       )}
-      {viewDays === 7 || viewDays === 30 ? (
-        <>
-          {Object.keys(events).map((keyName, count) => (
-            <div key={count} className="w-full mb-10">
-              {events[keyName].map((event) => (
-                <Event
-                  key={event.id}
-                  title={event.title}
-                  start={event.start}
-                  end={event.end}
-                  startDay={event.startDay}
-                  id={event.id}
-                />
-              ))}
-            </div>
-          ))}
-        </>
-      ) : (
+      {viewDays === displayView.DAY ? (
         <>
           {events?.map((event) => (
             <Event
@@ -46,6 +31,16 @@ function EventsListComponent({ events, editMode, toogleEdit }) {
               startDay={event.startDay}
               endDay={event.endDay}
               id={event.id}
+            />
+          ))}
+        </>
+      ) : (
+        <>
+          {Object.keys(events)?.map((groupName, count) => (
+            <EventsGroup
+              events={events[groupName]}
+              groupName={groupName}
+              key={count}
             />
           ))}
         </>

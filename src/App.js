@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import NavBar from './components/NavBar';
+import NavBar from './components/Navbar/components/NavBar';
 import { viewKind } from './data/viewEnums';
 import { auth } from './firebase';
 import { getEvents } from './helper/CalendarApiHandler';

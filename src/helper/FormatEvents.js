@@ -1,7 +1,7 @@
 import moment from 'moment';
 
 export const formatEvents = (events) => {
-  const formatedEvents = events.map((event) => ({
+  const formatedEvents = events?.map((event) => ({
     title: event.summary,
     start: event.start.dateTime || event.start.date,
     end: event.end.dateTime || event.end.date,

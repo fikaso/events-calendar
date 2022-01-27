@@ -10,6 +10,7 @@ import {
   selectViewDays,
   toggleInputModal,
 } from '../../../redux/viewSlice';
+import { displayView } from '../../../data/viewEnums';
 
 function EventsList() {
   const viewDays = useSelector(selectViewDays);
@@ -28,11 +29,11 @@ function EventsList() {
     <div className="flex flex-col items-center justify-center">
       <EventsListComponent
         events={
-          viewDays === 1
+          viewDays === displayView.DAY
             ? eventsToday
-            : viewDays === 7
+            : viewDays === displayView.WEEK
             ? eventsInWeek
-            : viewDays === 30
+            : viewDays === displayView.MONTH
             ? eventsInMonth
             : null
         }
