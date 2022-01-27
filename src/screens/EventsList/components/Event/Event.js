@@ -5,8 +5,9 @@ import { useDispatch } from 'react-redux';
 import { editEvent } from '../../../../redux/editEventSlice';
 import { removeEvent as removeEventFromStore } from '../../../../redux/eventsSlice';
 import { removeEvent as removeEventFromCalendar } from '../../../../helper/CalendarApiHandler';
+import { toggleInputModal } from '../../../../redux/viewSlice';
 
-function Event({ title, start, end, startDay, id, setAddEventModal }) {
+function Event({ title, start, end, startDay, id }) {
   const dispatch = useDispatch();
 
   const removeEvent = (id) => {
@@ -29,7 +30,6 @@ function Event({ title, start, end, startDay, id, setAddEventModal }) {
       <button
         className="absolute left-1 top-1"
         onClick={() => {
-          setAddEventModal(true);
           dispatch(
             editEvent({
               id,
@@ -38,6 +38,7 @@ function Event({ title, start, end, startDay, id, setAddEventModal }) {
               end,
             })
           );
+          dispatch(toggleInputModal());
         }}
       >
         <FaEdit size={20} />

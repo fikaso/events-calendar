@@ -1,21 +1,21 @@
-import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import EventInputModal from '../../../components/EventInputModal/containers/EventInputModal';
-import { selectViewDays } from '../../../redux/viewSlice';
+import { selectViewDays, toggleInputModal } from '../../../redux/viewSlice';
 import Event from './Event/Event';
 
-function EventsListComponent({ events }) {
+function EventsListComponent({ events, editMode }) {
   const viewDays = useSelector(selectViewDays);
-  const [addEventModal, setAddEventModal] = useState(false);
+  const dispatch = useDispatch();
 
   return (
     <div className="flex flex-col items-center w-full">
-      {addEventModal ? (
-        <EventInputModal setAddEventModal={setAddEventModal} />
+      {editMode ? (
+        <EventInputModal />
       ) : (
         <button
           className="bg-[#1c75a8] p-2 rounded-2xl text-white mb-2 w-32"
-          onClick={() => setAddEventModal(true)}
+          onClick={() => dispatch(toggleInputModal())}
         >
           Add Event
         </button>
@@ -32,7 +32,6 @@ function EventsListComponent({ events }) {
                   end={event.end}
                   startDay={event.startDay}
                   id={event.id}
-                  setAddEventModal={setAddEventModal}
                 />
               ))}
             </div>
@@ -49,7 +48,6 @@ function EventsListComponent({ events }) {
               startDay={event.startDay}
               endDay={event.endDay}
               id={event.id}
-              setAddEventModal={setAddEventModal}
             />
           ))}
         </>

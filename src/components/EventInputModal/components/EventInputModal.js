@@ -1,5 +1,6 @@
 import { useDispatch } from 'react-redux';
 import { disableEdit } from '../../../redux/editEventSlice';
+import { toggleInputModal } from '../../../redux/viewSlice';
 
 function EventInputModalComponent({
   handleSubmit,
@@ -9,7 +10,6 @@ function EventInputModalComponent({
   handleTitleChange,
   handleEventStartChange,
   handleEventEndChange,
-  setAddEventModal,
 }) {
   const dispatch = useDispatch();
   return (
@@ -59,7 +59,7 @@ function EventInputModalComponent({
               className="bg-[#1c75a8] p-2 rounded-2xl text-white w-32"
               onClick={() => {
                 dispatch(disableEdit());
-                setAddEventModal(false);
+                dispatch(toggleInputModal());
               }}
             >
               Cancle

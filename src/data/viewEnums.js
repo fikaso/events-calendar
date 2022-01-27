@@ -8,3 +8,8 @@ export const displayView = {
   WEEK: 7,
   MONTH: 30,
 };
+
+export const inputModal = {
+  ON: true,
+  OFF: false,
+};
