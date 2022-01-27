@@ -1,25 +1,23 @@
+import { calendarAPI } from '../data/apiEnum';
 import { formatEvents } from './FormatEvents';
 
 export const addEvent = async (event) => {
   try {
-    const res = await fetch(
-      `https://www.googleapis.com/calendar/v3/calendars/${process.env.REACT_APP_CALENDAR_ID}/events?key=${process.env.REACT_APP_API_KEY}`,
-      {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+    const res = await fetch(calendarAPI.POST, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+      },
+      body: JSON.stringify({
+        end: {
+          dateTime: event.end.dateTime,
         },
-        body: JSON.stringify({
-          end: {
-            dateTime: event.end.dateTime,
-          },
-          start: {
-            dateTime: event.start.dateTime,
-          },
-          summary: event.title,
-        }),
-      }
-    );
+        start: {
+          dateTime: event.start.dateTime,
+        },
+        summary: event.title,
+      }),
+    });
 
     const data = await res.json();
     return formatEvents([data]);
@@ -29,14 +27,11 @@ export const addEvent = async (event) => {
 };
 
 export const getEvents = async () => {
-  const res = await fetch(
-    `https://www.googleapis.com/calendar/v3/calendars/${process.env.REACT_APP_CALENDAR_ID}/events?key=${process.env.REACT_APP_API_KEY}&orderBy=startTime&singleEvents=true`,
-    {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-      },
-    }
-  );
+  const res = await fetch(calendarAPI.GET, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+    },
+  });
   if (res.status === 200) {
     const data = await res.json();
     if (data.items.length !== 0) {
@@ -50,7 +45,7 @@ export const getEvents = async () => {
 
 export const removeEvent = async (eventId) => {
   const res = await fetch(
-    `https://www.googleapis.com/calendar/v3/calendars/${process.env.REACT_APP_CALENDAR_ID}/events/${eventId}?key=${process.env.REACT_APP_API_KEY}`,
+    calendarAPI.DELETE + eventId + '?key=' + process.env.REACT_APP_API_KEY,
     {
       method: 'DELETE',
       headers: {
@@ -65,12 +60,7 @@ export const removeEvent = async (eventId) => {
 export const updateEventInCalendar = async ({ id, title, start, end }) => {
   try {
     const res = await fetch(
-      'https://www.googleapis.com/calendar/v3/calendars/' +
-        process.env.REACT_APP_CALENDAR_ID +
-        '/events/' +
-        id +
-        '?key=' +
-        process.env.REACT_APP_API_KEY,
+      calendarAPI.PATCH + id + '?key=' + process.env.REACT_APP_API_KEY,
       {
         method: 'PATCH',
         headers: {

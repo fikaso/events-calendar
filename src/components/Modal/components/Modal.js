@@ -1,8 +1,4 @@
-import { useDispatch } from 'react-redux';
-import { disableEdit } from '../../../redux/editEventSlice';
-import { toggleInputModal } from '../../../redux/viewSlice';
-
-function EventInputModalComponent({
+function ModalComponent({
   handleSubmit,
   eventTitle,
   eventStart,
@@ -10,8 +6,8 @@ function EventInputModalComponent({
   handleTitleChange,
   handleEventStartChange,
   handleEventEndChange,
+  cancle,
 }) {
-  const dispatch = useDispatch();
   return (
     <div className="w-[70%] max-w-[1200px]">
       <div className="border border-[#e2e2e2] p-4 rounded-xl mb-10">
@@ -57,10 +53,7 @@ function EventInputModalComponent({
             </button>
             <button
               className="bg-[#1c75a8] p-2 rounded-2xl text-white w-32"
-              onClick={() => {
-                dispatch(disableEdit());
-                dispatch(toggleInputModal());
-              }}
+              onClick={() => cancle()}
             >
               Cancle
             </button>
@@ -71,4 +64,4 @@ function EventInputModalComponent({
   );
 }
 
-export default EventInputModalComponent;
+export default ModalComponent;

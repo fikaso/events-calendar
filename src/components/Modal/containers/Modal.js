@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { disableEdit, selectEditedEvent } from '../../../redux/editEventSlice';
-import EventInputModalComponent from '../components/EventInputModal';
+import ModalComponent from '../components/Modal';
 import {
   addEvent as addEventToCalendar,
   removeEvent as removeEventFromCalendar,
@@ -9,8 +9,9 @@ import {
 } from '../../../helper/CalendarApiHandler';
 import { addEvent, removeEvent, updateEvent } from '../../../redux/eventsSlice';
 import moment from 'moment';
+import { toggleInputModal } from '../../../redux/viewSlice';
 
-function EventInputModal({ setAddEventModal }) {
+function Modal({ setAddEventModal }) {
   const [eventTitle, setEventTitle] = useState('');
   const [eventStart, setEventStart] = useState('');
   const [eventEnd, setEventEnd] = useState('');
@@ -89,18 +90,25 @@ function EventInputModal({ setAddEventModal }) {
     setEventStart('');
     setEventEnd('');
   };
+
+  const handleCancle = () => {
+    dispatch(disableEdit());
+    dispatch(toggleInputModal());
+  };
+
   return (
-    <EventInputModalComponent
+    <ModalComponent
       handleSubmit={handleSubmit}
       eventTitle={eventTitle}
       eventStart={eventStart}
       eventEnd={eventEnd}
+      setAddEventModal={setAddEventModal}
       handleTitleChange={handleTitleChange}
       handleEventStartChange={handleEventStartChange}
       handleEventEndChange={handleEventEndChange}
-      setAddEventModal={setAddEventModal}
+      cancle={handleCancle}
     />
   );
 }
 
-export default EventInputModal;
+export default Modal;

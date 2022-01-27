@@ -20,10 +20,11 @@ function EventComponent({
       <button className="absolute left-1 top-1" onClick={() => editEvent()}>
         <FaEdit size={20} />
       </button>
-      <p>Event Title: {title}</p>
+      <p>{title}</p>
       <p>Day: {startDay}</p>
-      <p>Start time - {start}</p>
-      <p>End Time - {end}</p>
+      <p>
+        From {start} to {end}
+      </p>
     </div>
   );
 }

@@ -4,7 +4,7 @@ function EventsGroup({ events, groupName }) {
   return (
     <>
       <div className="flex flex-col items-center w-full mb-10">
-        <h3>Group: {groupName}</h3>
+        <h3>{groupName}</h3>
         {events?.map((event) => (
           <Event
             key={event.id}
