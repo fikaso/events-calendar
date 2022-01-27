@@ -61,7 +61,7 @@ export const groupByDays = (events) => {
 
   const grouped = {};
   events.forEach((event) => {
-    const date = moment(event.start).format('L');
+    const date = event.startDay;
     if (grouped[date]) {
       grouped[date].push(event);
     } else {
@@ -79,7 +79,7 @@ export const groupByWeeks = (events) => {
   const grouped = {};
 
   events.forEach((event) => {
-    const date = event.weekOfMonth;
+    const date = 'WEEK ' + event.weekOfMonth;
     if (grouped[date]) {
       grouped[date].push(event);
     } else {

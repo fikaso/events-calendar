@@ -3,29 +3,32 @@ import NavigationPanel from './NavigationPanel/components/NavigationPanel';
 
 function NavBarComponent({ user, signOut }) {
   return (
-    <div className="flex flex-col mb-10 space-y-2">
-      <div className="flex items-center justify-between">
-        <h1 className="text-3xl">Events Calendar</h1>
-        <button
-          onClick={() => signOut()}
-          className="flex items-center space-x-2"
-        >
-          {user ? (
-            <div className="flex items-center space-x-1">
-              <img
-                className="rounded-full h-8 w-8"
-                src={user?.photo}
-                alt="user_photo"
-              />
+    <div className="flex flex-col sm-10 space-y-2">
+      <div className="flex items-center justify-between p-10">
+        <h1 className="text-3xl">
+          <img src="./eventlio-logo.svg" className="w-200 h-42" alt="" />
+          <span className="hidden">Events Calendar</span>
+        </h1>
+        {user && <NavigationPanel />}
 
-              <p>LogOut</p>
-            </div>
-          ) : (
-            <FaUser size={30} />
-          )}
-        </button>
+        {user ? (
+          <div className="flex items-center">
+            <button
+              onClick={() => signOut()}
+              className="button clay button-default mr-5"
+            >
+              Logout
+            </button>
+            <img
+              className="rounded-full h-10 w-10"
+              src={user?.photo}
+              alt="user_photo"
+            />
+          </div>
+        ) : (
+          <FaUser size={30} />
+        )}
       </div>
-      {user && <NavigationPanel />}
     </div>
   );
 }

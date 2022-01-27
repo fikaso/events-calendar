@@ -1,5 +1,8 @@
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import Modal from '../../../components/Modal/containers/Modal';
+import FormComponent from '../../../components/Modal/components/Form';
+import Modal from '../../../components/Modal/containers/Form';
+import InputPopup from '../../../components/Popup/InputPopup';
 import { displayView } from '../../../data/viewEnums';
 import { selectViewDays } from '../../../redux/viewSlice';
 import Event from './Event/containers/Event';
@@ -44,20 +47,24 @@ function EventsListComponent({ events, editMode, toogleEdit }) {
   };
 
   return (
-    <div className="flex flex-col items-center w-full">
-      {editMode ? (
-        <Modal />
-      ) : (
-        <button
-          className="bg-[#1c75a8] p-2 rounded-2xl text-white mb-2 w-32"
-          onClick={() => toogleEdit()}
-        >
-          Add Event
-        </button>
-      )}
+    <>
+      <div className="flex flex-col items-center w-full">
+        {editMode ? (
+          <InputPopup>
+            <Modal />
+          </InputPopup>
+        ) : (
+          <button
+            className="button-default button clay px-20 py-6"
+            onClick={() => toogleEdit()}
+          >
+            Add Event
+          </button>
+        )}
 
-      {events && getEventsView(events, viewDays)}
-    </div>
+        {events && getEventsView(events, viewDays)}
+      </div>
+    </>
   );
 }
 

@@ -1,4 +1,4 @@
-function ModalComponent({
+function FormComponent({
   handleSubmit,
   eventTitle,
   eventStart,
@@ -6,15 +6,13 @@ function ModalComponent({
   handleTitleChange,
   handleEventStartChange,
   handleEventEndChange,
-  cancle,
+  cancel,
 }) {
   return (
-    <div className="w-[70%] max-w-[1200px]">
-      <div className="border border-[#e2e2e2] p-4 rounded-xl mb-10">
+    <div className="w-full">
+      <div className="p-4 mb-10">
         <form onSubmit={handleSubmit}>
-          <h2 className="text-xl text-gray-500 font-semibold ">
-            Please add event details
-          </h2>
+          <h2 className="text-xl text-center">Please add event details</h2>
           <div className="flex flex-col items-center space-y-2 p-4">
             <input
               className="input"
@@ -45,17 +43,14 @@ function ModalComponent({
             </div>
           </div>
           <div className="flex items-center justify-center mt-5 space-x-5">
-            <button
-              className="bg-[#1c75a8] p-2 rounded-2xl text-white w-32"
-              type="submit"
-            >
+            <button className="button-default button clay" type="submit">
               Submit
             </button>
             <button
-              className="bg-[#1c75a8] p-2 rounded-2xl text-white w-32"
-              onClick={() => cancle()}
+              className="button-default button clay"
+              onClick={() => cancel()}
             >
-              Cancle
+              Cancel
             </button>
           </div>
         </form>
@@ -64,4 +59,4 @@ function ModalComponent({
   );
 }
 
-export default ModalComponent;
+export default FormComponent;

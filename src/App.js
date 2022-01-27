@@ -11,6 +11,7 @@ import { selectViewKind } from './redux/viewSlice';
 import Calendar from './screens/Calendar/containers/Calendar';
 import EventList from './screens/EventsList/containers/EventList';
 import Login from './screens/login/Login';
+import 'claymorphism-css/dist/clay.css';
 
 function App() {
   const dispatch = useDispatch();
@@ -98,7 +99,7 @@ function App() {
   };
 
   return (
-    <div className="flex flex-col p-10">
+    <div className="main-wrapper bg-[#fbe8a6]">
       <NavBar />
       {getPageView(localStorage.getItem('accessToken'), view)}
     </div>

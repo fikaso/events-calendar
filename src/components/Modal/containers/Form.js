@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { disableEdit, selectEditedEvent } from '../../../redux/editEventSlice';
-import ModalComponent from '../components/Modal';
+import ModalComponent from '../components/Form';
 import {
   addEvent as addEventToCalendar,
   removeEvent as removeEventFromCalendar,
@@ -86,12 +86,15 @@ function Modal({ setAddEventModal }) {
       addEventFunction();
     }
 
+    dispatch(disableEdit());
+    dispatch(toggleInputModal());
+
     setEventTitle('');
     setEventStart('');
     setEventEnd('');
   };
 
-  const handleCancle = () => {
+  const handleCancel = () => {
     dispatch(disableEdit());
     dispatch(toggleInputModal());
   };
@@ -106,7 +109,7 @@ function Modal({ setAddEventModal }) {
       handleTitleChange={handleTitleChange}
       handleEventStartChange={handleEventStartChange}
       handleEventEndChange={handleEventEndChange}
-      cancle={handleCancle}
+      cancel={handleCancel}
     />
   );
 }
