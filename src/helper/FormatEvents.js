@@ -3,8 +3,8 @@ import moment from 'moment';
 export const formatEvents = (events) => {
   const formatedEvents = events?.map((event) => ({
     title: event.summary,
-    start: moment(event.start.dateTime).format('LL'),
-    end: moment(event.end.dateTime).format('LL'),
+    start: moment(event.start.dateTime).toISOString(),
+    end: moment(event.end.dateTime).toISOString(),
     startDay: moment(event.start.dateTime).format('dddd'),
     endDay: moment(event.end.dateTime).format('dddd'),
     weekOfMonth: Math.ceil(moment(event.start.dateTime).date() / 7),
