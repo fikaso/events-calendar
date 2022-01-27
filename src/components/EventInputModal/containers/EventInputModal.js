@@ -8,6 +8,7 @@ import {
   updateEventInCalendar,
 } from '../../../helper/CalendarApiHandler';
 import { addEvent, removeEvent, updateEvent } from '../../../redux/eventsSlice';
+import moment from 'moment';
 
 function EventInputModal({ setAddEventModal }) {
   const [eventTitle, setEventTitle] = useState('');
@@ -34,10 +35,10 @@ function EventInputModal({ setAddEventModal }) {
     addEventToCalendar({
       title: eventTitle,
       start: {
-        dateTime: new Date(eventStart).toISOString(),
+        dateTime: moment(new Date(eventStart)).toISOString(),
       },
       end: {
-        dateTime: new Date(eventEnd).toISOString(),
+        dateTime: moment(new Date(eventEnd)).toISOString(),
       },
     }).then((addedEvent) => {
       if (typeof addedEvent === 'string') {
@@ -52,8 +53,8 @@ function EventInputModal({ setAddEventModal }) {
     updateEventInCalendar({
       id: editedEvent.value.id,
       title: eventTitle,
-      start: new Date(eventStart).toISOString(),
-      end: new Date(eventEnd).toISOString(),
+      start: moment(new Date(eventStart)).toISOString(),
+      end: moment(new Date(eventEnd)).toISOString(),
     }).then((updatedEvent) => {
       if (typeof updatedEvent === 'string') {
         dispatch(removeEvent(updatedEvent));

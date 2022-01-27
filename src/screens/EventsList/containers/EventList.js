@@ -25,18 +25,23 @@ function EventsList() {
     dispatch(toggleInputModal());
   };
 
+  const evensToDisplay = (viewDays) => {
+    switch (viewDays) {
+      case displayView.DAY:
+        return eventsToday;
+      case displayView.WEEK:
+        return eventsInWeek;
+      case displayView.MONTH:
+        return eventsInMonth;
+      default:
+        return null;
+    }
+  };
+
   return (
     <div className="flex flex-col items-center justify-center">
       <EventsListComponent
-        events={
-          viewDays === displayView.DAY
-            ? eventsToday
-            : viewDays === displayView.WEEK
-            ? eventsInWeek
-            : viewDays === displayView.MONTH
-            ? eventsInMonth
-            : null
-        }
+        events={evensToDisplay(viewDays)}
         editMode={editMode}
         toogleEdit={toogleEdit}
       />

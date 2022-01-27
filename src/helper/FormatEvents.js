@@ -35,8 +35,7 @@ const sortEvents = (events) => {
   return { eventsToday, eventsInWeek, eventsInMonth };
 };
 
-const getCurrentDateTime = () =>
-  moment(new Date(Date.now()).toISOString()).format('L');
+const getCurrentDateTime = () => moment(new Date(Date.now())).format('L');
 
 const filterEventsToday = (events, now) => {
   return events.filter((events) =>
@@ -56,6 +55,10 @@ const filterEventsBetweenDates = (events, startDate, endDate) => {
 };
 
 export const groupByDays = (events) => {
+  if (!events) {
+    return;
+  }
+
   const grouped = {};
   events.forEach((event) => {
     const date = moment(event.start).format('L');
@@ -69,6 +72,10 @@ export const groupByDays = (events) => {
 };
 
 export const groupByWeeks = (events) => {
+  if (!events) {
+    return;
+  }
+
   const grouped = {};
 
   events.forEach((event) => {

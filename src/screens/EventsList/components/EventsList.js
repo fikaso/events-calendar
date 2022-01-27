@@ -20,29 +20,34 @@ function EventsListComponent({ events, editMode, toogleEdit }) {
           Add Event
         </button>
       )}
-      {viewDays === displayView.DAY ? (
+
+      {events && (
         <>
-          {events?.map((event) => (
-            <Event
-              key={event.id}
-              title={event.title}
-              start={event.start}
-              end={event.end}
-              startDay={event.startDay}
-              endDay={event.endDay}
-              id={event.id}
-            />
-          ))}
-        </>
-      ) : (
-        <>
-          {Object.keys(events)?.map((groupName, count) => (
-            <EventsGroup
-              events={events[groupName]}
-              groupName={groupName}
-              key={count}
-            />
-          ))}
+          {viewDays === displayView.DAY ? (
+            <>
+              {events?.map((event) => (
+                <Event
+                  key={event.id}
+                  title={event.title}
+                  start={event.start}
+                  end={event.end}
+                  startDay={event.startDay}
+                  endDay={event.endDay}
+                  id={event.id}
+                />
+              ))}
+            </>
+          ) : (
+            <>
+              {Object.keys(events)?.map((groupName, count) => (
+                <EventsGroup
+                  events={events[groupName]}
+                  groupName={groupName}
+                  key={count}
+                />
+              ))}
+            </>
+          )}
         </>
       )}
     </div>

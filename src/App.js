@@ -87,18 +87,20 @@ function App() {
     }
   }, [calendarToken, dispatch]);
 
+  const getPageView = (token, kindOfView) => {
+    if (token) {
+      if (kindOfView === viewKind.CALENDAR) {
+        return <Calendar />;
+      }
+      return <EventList />;
+    }
+    return <Login />;
+  };
+
   return (
     <div className="flex flex-col p-10">
       <NavBar />
-      {localStorage.getItem('accessToken') ? (
-        view === viewKind.CALENDAR ? (
-          <Calendar />
-        ) : (
-          <EventList />
-        )
-      ) : (
-        <Login />
-      )}
+      {getPageView(localStorage.getItem('accessToken'), view)}
     </div>
   );
 }
