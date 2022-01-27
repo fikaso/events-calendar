@@ -1,23 +1,28 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   selectEventsGroupedByDays,
   selectEventsGroupedByWeeks,
   selectEventsToday,
 } from '../../../redux/eventsSlice';
 import EventsListComponent from '../components/EventsList';
-import { selectInputModal, selectViewDays } from '../../../redux/viewSlice';
-// import { useDispatch } from 'react-redux';
+import {
+  selectInputModal,
+  selectViewDays,
+  toggleInputModal,
+} from '../../../redux/viewSlice';
 
 function EventsList() {
   const viewDays = useSelector(selectViewDays);
-  // const dispatch = useDispatch();
 
   const eventsToday = useSelector(selectEventsToday);
   const eventsInWeek = useSelector(selectEventsGroupedByDays);
   const eventsInMonth = useSelector(selectEventsGroupedByWeeks);
 
   const editMode = useSelector(selectInputModal);
-  // const toogleEdit = dispatch(toggleViewMode());
+  const dispatch = useDispatch();
+  const toogleEdit = () => {
+    dispatch(toggleInputModal());
+  };
 
   return (
     <div className="flex flex-col items-center justify-center">
@@ -32,7 +37,7 @@ function EventsList() {
             : null
         }
         editMode={editMode}
-        // toogleEdit={toogleEdit}
+        toogleEdit={toogleEdit}
       />
     </div>
   );
