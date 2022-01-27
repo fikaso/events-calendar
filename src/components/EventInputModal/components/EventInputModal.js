@@ -1,8 +1,7 @@
-import react from 'react';
 import { useDispatch } from 'react-redux';
-import { disableEdit } from '../redux/editEventSlice';
+import { disableEdit } from '../../../redux/editEventSlice';
 
-function EventInputModal({
+function EventInputModalComponent({
   handleSubmit,
   eventTitle,
   eventStart,
@@ -72,4 +71,4 @@ function EventInputModal({
   );
 }
 
-export default EventInputModal;
+export default EventInputModalComponent;

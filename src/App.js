@@ -8,7 +8,7 @@ import { getEvents } from './helper/CalendarApiHandler';
 import { setEvents } from './redux/eventsSlice';
 import { logIn, selectUser } from './redux/userSlice';
 import { selectViewKind } from './redux/viewSlice';
-import Calendar from './screens/Calendar/components/Calendar';
+import Calendar from './screens/Calendar/containers/Calendar';
 import EventList from './screens/EventsList/containers/EventList';
 import Login from './screens/login/Login';
 

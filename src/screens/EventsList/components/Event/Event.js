@@ -3,18 +3,21 @@ import React from 'react';
 import { FaEdit, FaTimes } from 'react-icons/fa';
 import { useDispatch } from 'react-redux';
 import { editEvent } from '../../../../redux/editEventSlice';
+import { removeEvent as removeEventFromStore } from '../../../../redux/eventsSlice';
+import { removeEvent as removeEventFromCalendar } from '../../../../helper/CalendarApiHandler';
 
-function Event({
-  title,
-  start,
-  end,
-  startDay,
-  endDay,
-  id,
-  removeEvent,
-  setAddEventModal,
-}) {
+function Event({ title, start, end, startDay, id, setAddEventModal }) {
   const dispatch = useDispatch();
+
+  const removeEvent = (id) => {
+    removeEventFromCalendar(id).then((response) => {
+      if (response.status === 204) {
+        dispatch(removeEventFromStore(id));
+      } else {
+        console.error(response);
+      }
+    });
+  };
   return (
     <div className="w-[40%] border-2 border-black my-2 text-center rounded-xl relative">
       <button

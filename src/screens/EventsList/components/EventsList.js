@@ -1,36 +1,17 @@
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import EventInputModal from '../../../components/EventInputModal';
+import EventInputModal from '../../../components/EventInputModal/containers/EventInputModal';
 import { selectViewDays } from '../../../redux/viewSlice';
 import Event from './Event/Event';
 
-function EventList({
-  events,
-  removeEvent,
-  addEventModal,
-  setAddEventModal,
-  handleSubmit,
-  handleTitleChange,
-  handleEventStartChange,
-  handleEventEndChange,
-  eventTitle,
-  eventStart,
-  eventEnd,
-  editEvent,
-}) {
+function EventsListComponent({ events }) {
   const viewDays = useSelector(selectViewDays);
+  const [addEventModal, setAddEventModal] = useState(false);
+
   return (
     <div className="flex flex-col items-center w-full">
       {addEventModal ? (
-        <EventInputModal
-          handleSubmit={handleSubmit}
-          eventTitle={eventTitle}
-          eventStart={eventStart}
-          eventEnd={eventEnd}
-          handleTitleChange={handleTitleChange}
-          handleEventStartChange={handleEventStartChange}
-          handleEventEndChange={handleEventEndChange}
-          setAddEventModal={setAddEventModal}
-        />
+        <EventInputModal setAddEventModal={setAddEventModal} />
       ) : (
         <button
           className="bg-[#1c75a8] p-2 rounded-2xl text-white mb-2 w-32"
@@ -50,10 +31,7 @@ function EventList({
                   start={event.start}
                   end={event.end}
                   startDay={event.startDay}
-                  endDay={event.endDay}
                   id={event.id}
-                  removeEvent={removeEvent}
-                  editEvent={editEvent}
                   setAddEventModal={setAddEventModal}
                 />
               ))}
@@ -71,8 +49,6 @@ function EventList({
               startDay={event.startDay}
               endDay={event.endDay}
               id={event.id}
-              removeEvent={removeEvent}
-              editEvent={editEvent}
               setAddEventModal={setAddEventModal}
             />
           ))}
@@ -82,4 +58,4 @@ function EventList({
   );
 }
 
-export default EventList;
+export default EventsListComponent;

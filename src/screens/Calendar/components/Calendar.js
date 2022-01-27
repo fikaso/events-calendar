@@ -3,21 +3,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import React from 'react';
 
-import { addEvent as addEventToCalendar } from '../../../helper/CalendarApiHandler';
-import { useSelector } from 'react-redux';
-import { selectEventsInMonth } from '../../../redux/eventsSlice';
-import { useDispatch } from 'react-redux';
-import { addEvent } from '../../../redux/eventsSlice';
-
-function Calendar() {
-  const dispatch = useDispatch();
-  const events = useSelector(selectEventsInMonth);
-  const addEventFunction = () => {
-    addEventToCalendar().then((addedEvent) => {
-      dispatch(addEvent(...addedEvent));
-    });
-  };
-
+function CalendarComponent({ events, addEvent }) {
   return (
     <>
       {events && (
@@ -44,7 +30,7 @@ function Calendar() {
           customButtons={{
             addEventButton: {
               text: 'Add Event',
-              click: () => addEventFunction(),
+              click: () => addEvent(),
             },
           }}
         />
@@ -53,4 +39,4 @@ function Calendar() {
   );
 }
 
-export default Calendar;
+export default CalendarComponent;
