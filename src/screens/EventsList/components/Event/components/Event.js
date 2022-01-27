@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { FaEdit, FaTimes } from 'react-icons/fa';
+import InputPopup from '../../../../../components/Popup/InputPopup';
 import Popup from '../../../../../components/Popup/Popup';
 
 function EventComponent({
@@ -39,11 +40,13 @@ function EventComponent({
         </div>
       </div>
       {deleteDialog && (
-        <Popup
-          setDeleteDialog={setDeleteDialog}
-          id={id}
-          removeEvent={removeEvent}
-        />
+        <InputPopup>
+          <Popup
+            setDeleteDialog={setDeleteDialog}
+            id={id}
+            removeEvent={removeEvent}
+          />
+        </InputPopup>
       )}
     </>
   );

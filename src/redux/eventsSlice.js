@@ -13,16 +13,23 @@ export const eventsSlice = createSlice({
   reducers: {
     setEvents: (state, action) => {
       const { eventsToday, eventsInWeek, eventsInMonth } = action.payload;
-      state.today = eventsToday;
-      state.week = eventsInWeek;
-      state.month = eventsInMonth;
+
+      return {
+        ...state,
+        today: eventsToday ? eventsToday : [],
+        week: eventsInWeek ? eventsInWeek : [],
+        month: eventsInMonth ? eventsInMonth : [],
+      };
     },
     addEvent: (state, action) => {
       const { eventsToday, eventsInWeek, eventsInMonth } = action.payload;
 
-      state.today = [...state.today, ...eventsToday].sort(orderByDateAsc);
-      state.week = [...state.week, ...eventsInWeek].sort(orderByDateAsc);
-      state.month = [...state.month, ...eventsInMonth].sort(orderByDateAsc);
+      return {
+        ...state,
+        today: [...state.today, ...eventsToday].sort(orderByDateAsc),
+        week: [...state.week, ...eventsInWeek].sort(orderByDateAsc),
+        month: [...state.month, ...eventsInMonth].sort(orderByDateAsc),
+      };
     },
     removeEvent: (state, action) => {
       state.week = state.week.filter((event) => event.id !== action.payload);

@@ -79,7 +79,8 @@ export const groupByWeeks = (events) => {
   const grouped = {};
 
   events.forEach((event) => {
-    const date = 'WEEK ' + event.weekOfMonth;
+    const date =
+      'WEEK ' + event.weekOfMonth + ' of ' + moment(event.start).format('MMMM');
     if (grouped[date]) {
       grouped[date].push(event);
     } else {
