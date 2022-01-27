@@ -5,10 +5,7 @@ import React from 'react';
 
 import { addEvent as addEventToCalendar } from '../../../helper/CalendarApiHandler';
 import { useSelector } from 'react-redux';
-import {
-  selectEventsInMonth,
-  selectEventsInWeek,
-} from '../../../redux/eventsSlice';
+import { selectEventsInMonth } from '../../../redux/eventsSlice';
 import { useDispatch } from 'react-redux';
 import { addEvent } from '../../../redux/eventsSlice';
 

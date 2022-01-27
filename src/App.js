@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import NavBar from './components/NavBar';
+import { viewKind } from './data/viewEnums';
 import { auth } from './firebase';
 import { getEvents } from './helper/CalendarApiHandler';
 import { setEvents } from './redux/eventsSlice';
@@ -16,7 +17,7 @@ function App() {
   const [calendarToken, setCalendarToken] = useState(false);
 
   const user = useSelector(selectUser);
-  const viewKind = useSelector(selectViewKind);
+  const view = useSelector(selectViewKind);
 
   const userAuth = () => {
     const script = document.createElement('script');
@@ -90,7 +91,7 @@ function App() {
     <div className="flex flex-col p-10">
       <NavBar />
       {localStorage.getItem('accessToken') ? (
-        viewKind ? (
+        view === viewKind.CALENDAR ? (
           <Calendar />
         ) : (
           <EventList />

@@ -1,12 +1,13 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { logOut, selectUser } from '../redux/userSlice';
 import { FaUser } from 'react-icons/fa';
-import { selectViewKind, setViewDays, toggleKind } from '../redux/viewSlice';
+import { selectViewKind, setView, toggleKind } from '../redux/viewSlice';
+import { displayView, viewKind } from '../data/viewEnums';
 
 function NavBar() {
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
-  const viewKind = useSelector(selectViewKind);
+  const view = useSelector(selectViewKind);
 
   const signOut = () => {
     dispatch(logOut());
@@ -33,23 +34,23 @@ function NavBar() {
       </div>
       {user && (
         <>
-          {!viewKind && (
+          {view === viewKind.LIST && (
             <div className="flex items-center space-x-5">
               <h3 className="text-xl">Events to display</h3>
               <button
-                onClick={() => dispatch(setViewDays(1))}
+                onClick={() => dispatch(setView(displayView.DAY))}
                 className="bg-[#9c43c5] p-2 rounded-2xl text-white w-32"
               >
                 Today
               </button>
               <button
-                onClick={() => dispatch(setViewDays(7))}
+                onClick={() => dispatch(setView(displayView.WEEK))}
                 className="bg-[#9c43c5] p-2 rounded-2xl text-white w-32"
               >
                 7 days
               </button>
               <button
-                onClick={() => dispatch(setViewDays(30))}
+                onClick={() => dispatch(setView(displayView.MONTH))}
                 className="bg-[#9c43c5] p-2 rounded-2xl text-white w-32"
               >
                 30 days
@@ -60,7 +61,7 @@ function NavBar() {
             className="bg-[#9c43c5] p-2 rounded-2xl text-white w-32 mt-2"
             onClick={() => dispatch(toggleKind())}
           >
-            {viewKind ? 'Events List View' : 'Calendar View'}
+            {view === viewKind.CALENDAR ? 'Events List View' : 'Calendar View'}
           </button>
         </>
       )}
