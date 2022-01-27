@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
-import EventInputModal from '../../components/EventInputModal';
-import { selectViewDays } from '../../redux/viewSlice';
-import Event from './components/Event/Event';
+import EventInputModal from '../../../components/EventInputModal';
+import { selectViewDays } from '../../../redux/viewSlice';
+import Event from './Event/Event';
 
 function EventList({
   events,
@@ -41,8 +41,8 @@ function EventList({
       )}
       {viewDays === 7 || viewDays === 30 ? (
         <>
-          {Object.keys(events).map((keyName) => (
-            <div className="w-full mb-10">
+          {Object.keys(events).map((keyName, count) => (
+            <div key={count} className="w-full mb-10">
               {events[keyName].map((event) => (
                 <Event
                   key={event.id}

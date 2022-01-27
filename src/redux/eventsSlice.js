@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { groupByDays, groupByWeeks } from '../helper/FormatEvents';
 
 const orderByDateAsc = (a, b) => new Date(a.start) - new Date(b.start);
 
@@ -50,7 +51,7 @@ export const eventsSlice = createSlice({
         });
       }
       if (eventsInMonth.length !== 0) {
-        state.week = state.week.map((event) => {
+        state.month = state.month.map((event) => {
           if (event.id === eventsInMonth[0].id) {
             return eventsInMonth[0];
           } else {
@@ -68,5 +69,10 @@ export const { setEvents, addEvent, removeEvent, updateEvent } =
 export const selectEventsToday = (state) => state.events.today;
 export const selectEventsInWeek = (state) => state.events.week;
 export const selectEventsInMonth = (state) => state.events.month;
+
+export const selectEventsGroupedByDays = (state) =>
+  groupByDays(state.events.week);
+export const selectEventsGroupedByWeeks = (state) =>
+  groupByWeeks(state.events.month);
 
 export default eventsSlice.reducer;

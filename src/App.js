@@ -1,17 +1,22 @@
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import NavBar from './components/NavBar';
 import { auth } from './firebase';
-import { getEvents } from './helper/CalendarHandler';
+import { getEvents } from './helper/CalendarApiHandler';
 import { setEvents } from './redux/eventsSlice';
-import { logIn } from './redux/userSlice';
-import HomeScreen from './screens/HomeScreen/HomeScreen';
+import { logIn, selectUser } from './redux/userSlice';
+import { selectViewKind } from './redux/viewSlice';
+import Calendar from './screens/Calendar/components/Calendar';
+import EventList from './screens/EventsList/containers/EventList';
 import Login from './screens/login/Login';
 
 function App() {
   const dispatch = useDispatch();
   const [calendarToken, setCalendarToken] = useState(false);
+
+  const user = useSelector(selectUser);
+  const viewKind = useSelector(selectViewKind);
 
   const userAuth = () => {
     const script = document.createElement('script');
@@ -48,6 +53,10 @@ function App() {
   };
 
   useEffect(() => {
+    return;
+  }, [user]);
+
+  useEffect(() => {
     auth.onAuthStateChanged((authUser) => {
       if (authUser) {
         dispatch(
@@ -80,7 +89,15 @@ function App() {
   return (
     <div className="flex flex-col p-10">
       <NavBar />
-      {localStorage.getItem('accessToken') ? <HomeScreen /> : <Login />}
+      {localStorage.getItem('accessToken') ? (
+        viewKind ? (
+          <Calendar />
+        ) : (
+          <EventList />
+        )
+      ) : (
+        <Login />
+      )}
     </div>
   );
 }

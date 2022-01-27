@@ -2,35 +2,32 @@ import { useSelector } from 'react-redux';
 import {
   addEvent,
   removeEvent,
-  selectEventsInMonth,
-  selectEventsInWeek,
+  selectEventsGroupedByDays,
+  selectEventsGroupedByWeeks,
   selectEventsToday,
   updateEvent,
-} from '../../redux/eventsSlice';
+} from '../../../redux/eventsSlice';
 import {
   addEvent as addEventToCalendar,
   removeEvent as removeEventFromCalendar,
   updateEventInCalendar,
-} from '../../helper/CalendarHandler';
-import Calendar from '../Calendar/Calendar';
+} from '../../../helper/CalendarApiHandler';
 import { useDispatch } from 'react-redux';
-import EventsListComponent from '../EventsList/EventsList';
+import EventsListComponent from '../components/EventsList';
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { disableEdit, selectEditedEvent } from '../../redux/editEventSlice';
-import { selectViewDays, selectViewKind } from '../../redux/viewSlice';
-import { groupByDays, groupByWeeks } from '../../helper/DatesHandler';
+import { disableEdit, selectEditedEvent } from '../../../redux/editEventSlice';
+import { selectViewDays } from '../../../redux/viewSlice';
 
 function EventsList() {
   const dispatch = useDispatch();
   const viewDays = useSelector(selectViewDays);
+
   const eventsToday = useSelector(selectEventsToday);
-  const eventsInWeek = useSelector(selectEventsInWeek);
-  const groupedByDay = groupByDays(eventsInWeek);
-  const eventsInMonth = useSelector(selectEventsInMonth);
-  let groupedByWeeks = groupByWeeks(eventsInMonth);
+  const eventsInWeek = useSelector(selectEventsGroupedByDays);
+  const eventsInMonth = useSelector(selectEventsGroupedByWeeks);
+
   const editedEvent = useSelector(selectEditedEvent);
-  const viewKind = useSelector(selectViewKind);
 
   const [addEventModal, setAddEventModal] = useState(false);
   const [eventTitle, setEventTitle] = useState('');
@@ -88,7 +85,6 @@ function EventsList() {
         dispatch(removeEvent(updatedEvent));
       } else {
         dispatch(updateEvent(updatedEvent));
-        groupedByWeeks = groupByWeeks(eventsInMonth);
       }
     });
     dispatch(disableEdit());
@@ -120,34 +116,28 @@ function EventsList() {
   };
 
   return (
-    <div className="">
-      {viewKind ? (
-        <Calendar />
-      ) : (
-        <div className="flex flex-col items-center justify-center">
-          <EventsListComponent
-            events={
-              viewDays === 1
-                ? eventsToday
-                : viewDays === 7
-                ? groupedByDay
-                : viewDays === 30
-                ? groupedByWeeks
-                : null
-            }
-            addEventModal={addEventModal}
-            eventTitle={eventTitle}
-            eventStart={eventStart}
-            eventEnd={eventEnd}
-            removeEvent={removeEventFunction}
-            setAddEventModal={setAddEventModal}
-            handleSubmit={handleSubmit}
-            handleTitleChange={handleTitleChange}
-            handleEventStartChange={handleEventStartChange}
-            handleEventEndChange={handleEventEndChange}
-          />
-        </div>
-      )}
+    <div className="flex flex-col items-center justify-center">
+      <EventsListComponent
+        events={
+          viewDays === 1
+            ? eventsToday
+            : viewDays === 7
+            ? eventsInWeek
+            : viewDays === 30
+            ? eventsInMonth
+            : null
+        }
+        addEventModal={addEventModal}
+        eventTitle={eventTitle}
+        eventStart={eventStart}
+        eventEnd={eventEnd}
+        removeEvent={removeEventFunction}
+        setAddEventModal={setAddEventModal}
+        handleSubmit={handleSubmit}
+        handleTitleChange={handleTitleChange}
+        handleEventStartChange={handleEventStartChange}
+        handleEventEndChange={handleEventEndChange}
+      />
     </div>
   );
 }

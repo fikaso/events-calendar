@@ -3,14 +3,14 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import React from 'react';
 
-import { addEvent as addEventToCalendar } from '../../helper/CalendarHandler';
+import { addEvent as addEventToCalendar } from '../../../helper/CalendarApiHandler';
 import { useSelector } from 'react-redux';
 import {
   selectEventsInMonth,
   selectEventsInWeek,
-} from '../../redux/eventsSlice';
+} from '../../../redux/eventsSlice';
 import { useDispatch } from 'react-redux';
-import { addEvent } from '../../redux/eventsSlice';
+import { addEvent } from '../../../redux/eventsSlice';
 
 function Calendar() {
   const dispatch = useDispatch();
