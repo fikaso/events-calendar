@@ -1,10 +1,10 @@
 import moment from 'moment';
 
 export const formatEvents = (events) => {
-  const formatedEvents = events.map((event) => ({
+  const formatedEvents = events?.map((event) => ({
     title: event.summary,
-    start: event.start.dateTime || event.start.date,
-    end: event.end.dateTime || event.end.date,
+    start: moment(event.start.dateTime).toISOString(),
+    end: moment(event.end.dateTime).toISOString(),
     startDay: moment(event.start.dateTime).format('dddd'),
     endDay: moment(event.end.dateTime).format('dddd'),
     weekOfMonth: Math.ceil(moment(event.start.dateTime).date() / 7),
@@ -35,8 +35,7 @@ const sortEvents = (events) => {
   return { eventsToday, eventsInWeek, eventsInMonth };
 };
 
-const getCurrentDateTime = () =>
-  moment(new Date(Date.now()).toISOString()).format('L');
+const getCurrentDateTime = () => moment(new Date(Date.now())).format('L');
 
 const filterEventsToday = (events, now) => {
   return events.filter((events) =>
@@ -56,9 +55,13 @@ const filterEventsBetweenDates = (events, startDate, endDate) => {
 };
 
 export const groupByDays = (events) => {
+  if (!events) {
+    return;
+  }
+
   const grouped = {};
   events.forEach((event) => {
-    const date = moment(event.start).format('L');
+    const date = event.startDay;
     if (grouped[date]) {
       grouped[date].push(event);
     } else {
@@ -69,10 +72,15 @@ export const groupByDays = (events) => {
 };
 
 export const groupByWeeks = (events) => {
+  if (!events) {
+    return;
+  }
+
   const grouped = {};
 
   events.forEach((event) => {
-    const date = event.weekOfMonth;
+    const date =
+      'WEEK ' + event.weekOfMonth + ' of ' + moment(event.start).format('MMMM');
     if (grouped[date]) {
       grouped[date].push(event);
     } else {

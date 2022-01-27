@@ -1,16 +1,17 @@
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import NavBar from './components/NavBar';
+import NavBar from './components/Navbar/container/NavBar';
 import { viewKind } from './data/viewEnums';
 import { auth } from './firebase';
 import { getEvents } from './helper/CalendarApiHandler';
 import { setEvents } from './redux/eventsSlice';
 import { logIn, selectUser } from './redux/userSlice';
 import { selectViewKind } from './redux/viewSlice';
-import Calendar from './screens/Calendar/components/Calendar';
+import Calendar from './screens/Calendar/containers/Calendar';
 import EventList from './screens/EventsList/containers/EventList';
 import Login from './screens/login/Login';
+import 'claymorphism-css/dist/clay.css';
 
 function App() {
   const dispatch = useDispatch();
@@ -87,18 +88,20 @@ function App() {
     }
   }, [calendarToken, dispatch]);
 
+  const getPageView = (token, kindOfView) => {
+    if (token) {
+      if (kindOfView === viewKind.CALENDAR) {
+        return <Calendar />;
+      }
+      return <EventList />;
+    }
+    return <Login />;
+  };
+
   return (
-    <div className="flex flex-col p-10">
+    <div className="main-wrapper bg-[#fbe8a6]">
       <NavBar />
-      {localStorage.getItem('accessToken') ? (
-        view === viewKind.CALENDAR ? (
-          <Calendar />
-        ) : (
-          <EventList />
-        )
-      ) : (
-        <Login />
-      )}
+      {getPageView(localStorage.getItem('accessToken'), view)}
     </div>
   );
 }
